@@ -1,9 +1,10 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, ValidationPipe, UseInterceptors, ClassSerializerInterceptor, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, ValidationPipe, UseInterceptors, ClassSerializerInterceptor, Res, HttpStatus } from '@nestjs/common';
 import { ApiCreatedResponse, ApiResponse } from '@nestjs/swagger';
 import { UserResponse } from 'src/api-doc/user.response';
 import { UserDto } from 'src/dto/user.dto';
 import { User } from 'src/models/user.model';
 import { UserService } from './user.service'
+import { Response } from 'express';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('users')
@@ -40,9 +41,14 @@ export class UserController {
     @Delete(':id')
     @HttpCode(200)
     async destroy(
-        @Param('id') id: String
-    ): Promise<String> {
-        await this.userService.remove(id)
-        return 'User removed!'
+        @Param('id') id: String,
+        @Res() res: Response
+    ): Promise<void> {
+        try {
+            await this.userService.remove(id)
+            res.status(200).send({ message: 'User removed!' });
+        } catch (error) {
+            res.status(400).send({error: error.message});
+        }
     }
 }
