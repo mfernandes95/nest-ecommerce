@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { User } from 'src/models/user.model';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { UserDto } from 'src/dto/user.dto';
 
 @Injectable()
 export class UserService {
@@ -22,8 +23,9 @@ export class UserService {
         return this.userRepo.findOneOrFail(+id)
     }
 
-    createUser(userDto: User): Promise<User> {
-        const user = this.userRepo.create(userDto)
+    createUser(body: any): Promise<User | any> {
+        // need refactor type
+        const user = this.userRepo.create(body)
         return this.userRepo.save(user)
     }
 

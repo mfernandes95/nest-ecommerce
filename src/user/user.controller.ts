@@ -1,4 +1,7 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, ValidationPipe } from '@nestjs/common';
+import { ApiCreatedResponse, ApiResponse } from '@nestjs/swagger';
+import { UserResponse } from 'src/api-doc/user.response';
+import { UserDto } from 'src/dto/user.dto';
 import { User } from 'src/models/user.model';
 import { UserService } from './user.service'
 
@@ -12,13 +15,19 @@ export class UserController {
         return await this.userService.find()
     }
 
+    @ApiResponse({
+        type: UserResponse
+    })
     @Get(':id')
     async show(@Param('id') id: String): Promise<User> {
         return await this.userService.findById(id)
     }
 
+    @ApiCreatedResponse({
+        type: UserResponse
+    })
     @Post()
-    async store(@Body() body: User): Promise<User> {
+    async store(@Body(new ValidationPipe) body: UserDto): Promise<User> {
         return await this.userService.createUser(body)
     }
 
