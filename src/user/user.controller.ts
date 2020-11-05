@@ -1,10 +1,11 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, ValidationPipe, UseInterceptors, ClassSerializerInterceptor, Res } from '@nestjs/common';
 import { ApiCreatedResponse, ApiResponse } from '@nestjs/swagger';
 import { UserResponse } from 'src/api-doc/user.response';
 import { UserDto } from 'src/dto/user.dto';
 import { User } from 'src/models/user.model';
 import { UserService } from './user.service'
 
+@UseInterceptors(ClassSerializerInterceptor)
 @Controller('users')
 export class UserController {
 
@@ -32,13 +33,16 @@ export class UserController {
     }
 
     @Put(':id')
-    async update(@Param('id') id: String, @Body() body: User): Promise<User>{
+    async update(@Param('id') id: String, @Body() body: User): Promise<User> {
         return await this.userService.update(id, body)
     }
 
     @Delete(':id')
-    // @HttpCode(204)
-    async destroy(@Param('id') id: String): Promise<void>{
+    @HttpCode(200)
+    async destroy(
+        @Param('id') id: String
+    ): Promise<String> {
         await this.userService.remove(id)
+        return 'User removed!'
     }
 }

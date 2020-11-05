@@ -3,6 +3,7 @@ import { User } from 'src/models/user.model';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserDto } from 'src/dto/user.dto';
+import {DeleteResult} from "./result/DeleteResult";
 
 @Injectable()
 export class UserService {
@@ -35,8 +36,8 @@ export class UserService {
         return this.userRepo.findOneOrFail(+id)
     }
 
-    remove(id: String): void {
-        this.userRepo.findOneOrFail(+id)
-        this.userRepo.delete(+id)
+    async remove(id: String): Promise<DeleteResult> {
+        await this.userRepo.findOneOrFail(+id)
+        return await this.userRepo.delete(+id)
     }
 }
