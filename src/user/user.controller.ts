@@ -1,10 +1,10 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, ValidationPipe, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, ValidationPipe, UseInterceptors, ClassSerializerInterceptor, UseGuards } from '@nestjs/common';
 import { ApiCreatedResponse, ApiResponse } from '@nestjs/swagger';
 import { UserResponse } from 'src/api-doc/user.response';
 import { UserDto } from 'src/dto/user.dto';
 import { User } from 'src/models/user.model';
 import { UserService } from './user.service'
-
+import {JwtAuthGuard} from '../auth/shared/jwt-auth.guard' 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('users')
 export class UserController {
@@ -14,6 +14,7 @@ export class UserController {
     @ApiResponse({
         type: UserResponse
     })
+    @UseGuards(JwtAuthGuard)
     @Get()
     async index(
     ): Promise<User[]> {
@@ -23,6 +24,7 @@ export class UserController {
     @ApiResponse({
         type: UserResponse
     })
+    @UseGuards(JwtAuthGuard)
     @Get(':id')
     async show(
         @Param('id') id: String,
@@ -45,6 +47,7 @@ export class UserController {
     @ApiResponse({
         type: UserResponse
     })
+    @UseGuards(JwtAuthGuard)
     @Put(':id')
     async update(
         @Param('id') id: String,
@@ -53,6 +56,7 @@ export class UserController {
         return await this.userService.update(id, body)
     }
 
+    @UseGuards(JwtAuthGuard)
     @Delete(':id')
     @HttpCode(204)
     async destroy(

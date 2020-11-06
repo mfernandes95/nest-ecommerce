@@ -6,6 +6,8 @@ import { User } from './models/user.model';
 import { ConfigModule } from '@nestjs/config';
 import { UserController } from './user/user.controller';
 import { UserService } from './user/user.service';
+import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -21,8 +23,10 @@ import { UserService } from './user/user.service';
       entities: [User],
     }),
     TypeOrmModule.forFeature([User]),
+    AuthModule,
+    UserModule,
   ],
   controllers: [AppController, UserController],
   providers: [AppService, UserService],
 })
-export class AppModule {}
+export class AppModule { }
