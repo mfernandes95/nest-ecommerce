@@ -5,7 +5,7 @@ import {Exclude} from 'class-transformer';
 export class User{
 
     @PrimaryGeneratedColumn('uuid')
-    id: string;
+    id: String;
 
     @Column()
     name: string;

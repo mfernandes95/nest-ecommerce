@@ -24,15 +24,21 @@ export class UserService {
         return this.userRepo.findOneOrFail(+id)
     }
 
-    createUser(body: any): Promise<User | any> {
+    // Login
+    findByEmail(email: String): Promise<User> {
+        return this.userRepo.findOne({where: {email: email}})
+    }
+
+    async createUser(body: any): Promise<User | any> {
         // need refactor type
         const user = this.userRepo.create(body)
-        return this.userRepo.save(user)
+        // console.log('SUAHSUA', user);
+        return await this.userRepo.save(user)
     }
 
     async update(id: String, body: User): Promise<User> {
         this.userRepo.findOneOrFail(+id)
-        await this.userRepo.update({id: +id}, body)
+        await this.userRepo.update({id: id}, body)
         return this.userRepo.findOneOrFail(+id)
     }
 

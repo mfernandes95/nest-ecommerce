@@ -1,4 +1,4 @@
-import {MigrationInterface, QueryRunner, Table} from "typeorm";
+import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
 export class CreateUserTable1597362274197 implements MigrationInterface {
 
@@ -8,10 +8,11 @@ export class CreateUserTable1597362274197 implements MigrationInterface {
             columns: [
                 {
                     name: 'id',
-                    type: 'int',
+                    // isGenerated: true,
+                    type: 'varchar',
                     isPrimary: true,
-                    isGenerated: true,
-                    generationStrategy: 'increment'
+                    generationStrategy: 'uuid',
+                    default: 'uuid_generate_v4()',
                 },
                 {
                     name: 'name',
@@ -20,6 +21,7 @@ export class CreateUserTable1597362274197 implements MigrationInterface {
                 {
                     name: 'email',
                     type: 'varchar',
+                    isUnique: true
                 },
                 {
                     name: 'password',

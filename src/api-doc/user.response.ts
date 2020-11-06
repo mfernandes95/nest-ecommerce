@@ -2,7 +2,7 @@ import { ApiProperty } from "@nestjs/swagger"
 
 export class UserResponse {
     @ApiProperty()
-    id: number
+    id: String
 
     @ApiProperty({
         type: String,
