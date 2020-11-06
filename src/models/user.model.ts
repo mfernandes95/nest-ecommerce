@@ -4,14 +4,18 @@ import {Exclude} from 'class-transformer';
 @Entity()
 export class User{
 
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
 
     @Column()
     name: string;
 
-    @Column()
+    @Column({unique: true})
     email: string;
+
+    @Exclude()
+    @Column()
+    password: string;
 
     @Exclude()
     @CreateDateColumn({type: 'timestamp'})

@@ -1,10 +1,9 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, ValidationPipe, UseInterceptors, ClassSerializerInterceptor, Res, HttpStatus } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, ValidationPipe, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
 import { ApiCreatedResponse, ApiResponse } from '@nestjs/swagger';
 import { UserResponse } from 'src/api-doc/user.response';
 import { UserDto } from 'src/dto/user.dto';
 import { User } from 'src/models/user.model';
 import { UserService } from './user.service'
-import { Response } from 'express';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('users')
@@ -12,12 +11,13 @@ export class UserController {
 
     constructor(private readonly userService: UserService) { }
 
+    @ApiResponse({
+        type: UserResponse
+    })
     @Get()
     async index(
-        @Res() res: Response
-    ): Promise<any> {
-        const users =  await this.userService.find()
-        res.status(200).send({ users: users });
+    ): Promise<User[]> {
+        return await this.userService.find()
     }
 
     @ApiResponse({
@@ -26,43 +26,39 @@ export class UserController {
     @Get(':id')
     async show(
         @Param('id') id: String,
-        @Res() res: Response
-    ): Promise<any> {
-        const user = await this.userService.findById(id)
-        return res.status(200).send({ user: user });
+    ): Promise<User> {
+        return await this.userService.findById(id)
     }
 
     @ApiCreatedResponse({
         type: UserResponse
     })
+    @HttpCode(201)
     @Post()
     async store(
         @Body(new ValidationPipe)
-        body: UserDto,
-        @Res() res: Response
-    ): Promise<any> {
-        const user = await this.userService.createUser(body)
-        return res.status(200).send({ user: user });
-
+        body: UserDto
+    ): Promise<User> {
+        return await this.userService.createUser(body)
     }
 
+    @ApiResponse({
+        type: UserResponse
+    })
     @Put(':id')
     async update(
         @Param('id') id: String,
         @Body() body: User,
-        @Res() res: Response
-    ): Promise<any> {
-        const user = await this.userService.update(id, body)
-        return res.status(200).send({ user: user });
+    ): Promise<User> {
+        return await this.userService.update(id, body)
     }
 
     @Delete(':id')
-    // @HttpCode(200)
+    @HttpCode(204)
     async destroy(
         @Param('id') id: String,
-        @Res() res: Response
-    ): Promise<any> {
+    ): Promise<String> {
         await this.userService.remove(id)
-        return res.status(200).send({ message: 'User removed!' });
+        return 'User Removed!'
     }
 }
