@@ -13,42 +13,56 @@ export class UserController {
     constructor(private readonly userService: UserService) { }
 
     @Get()
-    async index(): Promise<User[]> {
-        return await this.userService.find()
+    async index(
+        @Res() res: Response
+    ): Promise<any> {
+        const users =  await this.userService.find()
+        res.status(200).send({ users: users });
     }
 
     @ApiResponse({
         type: UserResponse
     })
     @Get(':id')
-    async show(@Param('id') id: String): Promise<User> {
-        return await this.userService.findById(id)
+    async show(
+        @Param('id') id: String,
+        @Res() res: Response
+    ): Promise<any> {
+        const user = await this.userService.findById(id)
+        return res.status(200).send({ user: user });
     }
 
     @ApiCreatedResponse({
         type: UserResponse
     })
     @Post()
-    async store(@Body(new ValidationPipe) body: UserDto): Promise<User> {
-        return await this.userService.createUser(body)
+    async store(
+        @Body(new ValidationPipe)
+        body: UserDto,
+        @Res() res: Response
+    ): Promise<any> {
+        const user = await this.userService.createUser(body)
+        return res.status(200).send({ user: user });
+
     }
 
     @Put(':id')
-    async update(@Param('id') id: String, @Body() body: User): Promise<User> {
-        return await this.userService.update(id, body)
+    async update(
+        @Param('id') id: String,
+        @Body() body: User,
+        @Res() res: Response
+    ): Promise<any> {
+        const user = await this.userService.update(id, body)
+        return res.status(200).send({ user: user });
     }
 
     @Delete(':id')
-    @HttpCode(200)
+    // @HttpCode(200)
     async destroy(
         @Param('id') id: String,
         @Res() res: Response
-    ): Promise<void> {
-        try {
-            await this.userService.remove(id)
-            res.status(200).send({ message: 'User removed!' });
-        } catch (error) {
-            res.status(400).send({error: error.message});
-        }
+    ): Promise<any> {
+        await this.userService.remove(id)
+        return res.status(200).send({ message: 'User removed!' });
     }
 }
