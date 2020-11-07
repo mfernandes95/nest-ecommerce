@@ -21,6 +21,10 @@ import { AuthModule } from './auth/auth.module';
       password: process.env.TYPEORM_PASSWORD,
       database: process.env.TYPEORM_DATABASE,
       entities: [User],
+      // HEREEEE
+      // synchronize: true,
+      // logging: true,
+      // dropSchema: true,
     }),
     TypeOrmModule.forFeature([User]),
     AuthModule,
