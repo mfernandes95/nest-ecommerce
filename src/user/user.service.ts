@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { User } from 'src/models/user.model';
+import { User } from './entity/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserDto } from 'src/dto/user.dto';
+import { UserDto } from 'src/user/dto/user.dto';
 import {DeleteResult} from "./result/DeleteResult";
 
 @Injectable()

@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, ValidationPipe, UseInterceptors, ClassSerializerInterceptor, UseGuards } from '@nestjs/common';
 import { ApiCreatedResponse, ApiResponse } from '@nestjs/swagger';
-import { UserResponse } from 'src/api-doc/user.response';
-import { UserDto } from 'src/dto/user.dto';
-import { User } from 'src/models/user.model';
+import { UserResponse } from './api-doc/user.response';
+import { UserDto } from './dto/user.dto';
+import { User } from './entity/user.entity';
 import { UserService } from './user.service'
 import {JwtAuthGuard} from '../auth/shared/jwt-auth.guard' 
 @UseInterceptors(ClassSerializerInterceptor)
