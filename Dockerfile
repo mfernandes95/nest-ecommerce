@@ -6,5 +6,6 @@ COPY package*.json ./
 
 RUN yarn
 RUN npm i -g @nestjs/cli
+RUN yarn
 
 COPY . .

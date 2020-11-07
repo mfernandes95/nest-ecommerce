@@ -29,10 +29,8 @@ export class UserService {
         return this.userRepo.findOne({where: {email: email}})
     }
 
-    async createUser(body: any): Promise<User | any> {
-        // need refactor type
+    async createUser(body: UserDto): Promise<User> {
         const user = this.userRepo.create(body)
-        // console.log('SUAHSUA', user);
         return await this.userRepo.save(user)
     }
 

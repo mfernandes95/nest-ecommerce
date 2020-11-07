@@ -10,7 +10,7 @@ export class User{
     @Column()
     name: string;
 
-    @Column({unique: true})
+    @Column({ unique: true })
     email: string;
 
     @Exclude()
@@ -18,6 +18,6 @@ export class User{
     password: string;
 
     @Exclude()
-    @CreateDateColumn({type: 'timestamp'})
+    @CreateDateColumn({ type: 'timestamp' })
     created_at: Date
 }
