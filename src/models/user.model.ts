@@ -24,26 +24,6 @@ export class User {
 
     @BeforeInsert()
     async hashPassword(): Promise<void> {
-        try {
-            console.log('HERR', await bcrypt.hash('batata', 10))
             this.password = await bcrypt.hash(this.password, 10);
-        } catch (error) {
-            console.log(error);
-        }
     }
-
-    //   async comparePassword(attempt: string): Promise<boolean> {
-    //     return await bcrypt.compare(attempt, this.password);
-    //   }
-
-    //   toResponseObject(showToken: boolean = true): UserResponse {
-    //     const { id, name, email } = this;
-    //     const responseObject: UserResponse = {
-    //       id,
-    //       name,
-    //       email,
-    //     };
-
-    //     return responseObject;
-    // }
 }
