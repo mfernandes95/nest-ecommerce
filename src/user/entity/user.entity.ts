@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, BeforeInsert, AfterInsert } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, BeforeInsert, UpdateDateColumn } from "typeorm";
 import { Exclude } from 'class-transformer';
 import * as bcrypt from 'bcryptjs';
 
@@ -18,12 +18,20 @@ export class User {
     @Column()
     password: string;
 
+    // @Exclude()
+    // @CreateDateColumn({ type: 'timestamp' })
+    // created_at: Date
+
     @Exclude()
-    @CreateDateColumn({ type: 'timestamp' })
-    created_at: Date
+    @CreateDateColumn({ name: 'created_at' })
+    createdAt: Date;
+
+    @Exclude()
+    @UpdateDateColumn({ name: 'updated_at' })
+    updatedAt: Date;
 
     @BeforeInsert()
     async hashPassword(): Promise<void> {
-            this.password = await bcrypt.hash(this.password, 10);
+        this.password = await bcrypt.hash(this.password, 10);
     }
 }

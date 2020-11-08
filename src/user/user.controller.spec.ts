@@ -6,6 +6,7 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import * as SqliteConfig from '.././../database/config/sqlite';
 
 describe('UserController', () => {
   let userController: UserController;
@@ -13,24 +14,10 @@ describe('UserController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        ConfigModule.forRoot({
-          envFilePath: '.env.test',
-        }),
-        TypeOrmModule.forRoot({
-          envFilePath: '.env.test',
-          // @ts-ignore
-          type: process.env.TYPEORM_CONNECTION,
-          host: 'localhost',
-          port: parseInt(process.env.TYPEORM_PORT),
-          username: process.env.TYPEORM_USERNAME,
-          password: process.env.TYPEORM_PASSWORD,
-          database: process.env.TYPEORM_DATABASE,
-          entities: [User],
-          // HEREEEE
-          // synchronize: true,
-          // logging: true,
-          // dropSchema: true,
-        }),
+        // ConfigModule.forRoot({
+        //   envFilePath: '.env.test',
+        // }),
+        TypeOrmModule.forRoot(SqliteConfig),
       TypeOrmModule.forFeature([User])],
       controllers: [UserController],
       providers: [UserService],
@@ -41,7 +28,7 @@ describe('UserController', () => {
 
   describe('User', () => {
     it('UserController', () => {
-      console.log('relou', userController.index());
+      console.log('relou', userController);
       expect(userController).toBeDefined();
     });
   })

@@ -8,6 +8,8 @@ import { UserController } from './user/user.controller';
 import { UserService } from './user/user.service';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import * as PostgresConfig from '../database/config/postgres';
+
 
 @Module({
   imports: [
