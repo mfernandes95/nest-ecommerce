@@ -10,6 +10,7 @@ import * as SqliteConfig from '.././../database/config/sqlite';
 
 describe('UserController', () => {
   let userController: UserController;
+  let userService: UserService
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -23,6 +24,7 @@ describe('UserController', () => {
       providers: [UserService],
     }).compile();
 
+    userService = module.get<UserService>(UserService);
     userController = module.get<UserController>(UserController);
   });
 
@@ -33,4 +35,20 @@ describe('UserController', () => {
     });
   })
 
+  describe('User', () => {
+      it('Should get users', async () => {
+        const result = await userService.createUser({
+          name: 'Matheus',
+          email: 'msamsa@email.com',
+          password: "wdawd"
+        })
+
+        console.log('resss', result);
+
+        // jest.spyOn(userService, 'find')
+        //   .mockImplementationOnce(async () => ( id: 'my-id' ));
+        // console.log('333333333', await userService.find());
+        expect(await userService.find()).toEqual([result])
+      });
+    })
 });
