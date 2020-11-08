@@ -19,7 +19,7 @@ describe('UserController', () => {
         //   envFilePath: '.env.test',
         // }),
         TypeOrmModule.forRoot(SqliteConfig),
-      TypeOrmModule.forFeature([User])],
+        TypeOrmModule.forFeature([User])],
       controllers: [UserController],
       providers: [UserService],
     }).compile();
@@ -33,22 +33,27 @@ describe('UserController', () => {
       console.log('relou', userController);
       expect(userController).toBeDefined();
     });
+
+    it('UserService', () => {
+      console.log('relou', userService);
+      expect(userService).toBeDefined();
+    });
   })
 
   describe('User', () => {
-      it('Should get users', async () => {
-        const result = await userService.createUser({
-          name: 'Matheus',
-          email: 'msamsa@email.com',
-          password: "wdawd"
-        })
+    it('Should get users', async () => {
+      const result = await userService.createUser({
+        name: 'Matheus',
+        email: 'msamsa@email.com',
+        password: "wdawd"
+      })
 
-        console.log('resss', result);
+      console.log('resss', result);
 
-        // jest.spyOn(userService, 'find')
-        //   .mockImplementationOnce(async () => ( id: 'my-id' ));
-        // console.log('333333333', await userService.find());
-        expect(await userService.find()).toEqual([result])
-      });
-    })
+      // jest.spyOn(userService, 'find')
+      //   .mockImplementationOnce(async () => ( id: 'my-id' ));
+      // console.log('333333333', await userService.find());
+      expect(await userService.find()).toEqual([result])
+    });
+  })
 });
