@@ -1,6 +1,6 @@
-[] Escrever TDD
+[X] Escrever TDD
 [] Fazer tratamento de erros (Unauthorized)
 [] Tratar erro de email duplicado
 [X] Login
-[] Hash password
+[X] Hash password
 [] Products

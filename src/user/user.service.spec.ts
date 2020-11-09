@@ -100,5 +100,35 @@ describe('UserService', () => {
       expect(mockRepository.create).toBeCalledTimes(1)
       expect(mockRepository.save).toBeCalledTimes(1)
     });
+
+    it('should delete a user', async () => {
+      const user = TestUtil.giveAMeAValidUser()
+      mockRepository.delete.mockReturnValue(user)
+      mockRepository.findOneOrFail.mockReturnValue(user)
+
+      const deletedUser = await service.remove(user.id)
+
+      expect(!!deletedUser).toBe(true)
+      expect(mockRepository.findOneOrFail).toBeCalledTimes(1)
+      expect(mockRepository.delete).toBeCalledTimes(1)
+    });
+
+    it('should update a user', async () => {
+      const user = TestUtil.giveAMeAValidUser()
+      const updateUser = TestUtil.giveAMeAValidUserUpdate()
+      mockRepository.findOneOrFail.mockReturnValue(user)
+      mockRepository.update.mockReturnValue({
+        ...user,
+        ...updateUser
+      })
+      mockRepository.findOneOrFail.mockReturnValue({
+        ...user,
+        ...updateUser
+      })
+      const resultUser = await service.update(user.id, updateUser)
+      expect(resultUser).not.toMatchObject(user)
+      expect(mockRepository.findOneOrFail).toBeCalledTimes(2)
+      expect(mockRepository.update).toBeCalledTimes(1)
+    });
   })
 });
