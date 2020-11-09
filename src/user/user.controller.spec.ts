@@ -1,3 +1,4 @@
+
 import { Test, TestingModule } from '@nestjs/testing';
 // import { AppModule } from 'src/app.module';
 import { UserDto } from './dto/user.dto';
@@ -30,12 +31,10 @@ describe('UserController', () => {
 
   describe('User', () => {
     it('UserController', () => {
-      console.log('relou', userController);
       expect(userController).toBeDefined();
     });
 
     it('UserService', () => {
-      console.log('relou', userService);
       expect(userService).toBeDefined();
     });
   })
