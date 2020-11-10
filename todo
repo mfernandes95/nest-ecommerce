@@ -1,6 +1,7 @@
-[X] Escrever TDD
-[] Fazer tratamento de erros (Unauthorized)
-[] Tratar erro de email duplicado
+[X] Escrever TDD Unit
 [X] Login
 [X] Hash password
+[] Escrever TDD e2e
+[] Fazer tratamento de erros (Unauthorized)
+[] Tratar erro de email duplicado
 [] Products

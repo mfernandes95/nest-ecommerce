@@ -1,6 +1,3 @@
-// jest.mock('../utils/mocks/user.service.ts')
-// jest.mock('util/test.util')
-
 import {
   NotFoundException,
   InternalServerErrorException,
