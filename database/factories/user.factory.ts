@@ -12,10 +12,10 @@ define(User, (faker: typeof Faker) => {
     const lastName = faker.name.lastName(gender)
 
     const user = new User()
-    console.log('userrrr', user);
     user.name = faker.name.firstName(gender)
-    user.email = `${faker.name.lastName(gender)}@email.com`
+    user.email = `${faker.name.lastName(gender)}@gmail.com`
     user.password = faker.random.word()
+    console.log('userrrr2222222222', user);
 
     return user
 })

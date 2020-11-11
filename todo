@@ -1,7 +1,11 @@
 [X] Escrever TDD Unit
+    [] Import faker data
 [X] Login
 [X] Hash password
 [] Escrever TDD e2e
+    [] Import token JWT
+    [] Import faker data
+    [] Config rollback da query
 [] Fazer tratamento de erros (Unauthorized)
 [] Tratar erro de email duplicado
 [] Products
