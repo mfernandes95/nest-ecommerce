@@ -1,12 +1,12 @@
-import {User} from '../entity/user.entity'
+import {User} from '../../user/entity/user.entity'
 
-export default class TestUtil {
+export default class UserUtil {
   static giveAMeAValidUser(): User {
     const user = new User();
     user.email = 'valid@email.com';
     user.name = 'Matheus Pinheiro';
     user.password = 'pass123';
-    // user.id = '1';
+    user.id = '1';
     return user;
   }
 
