@@ -3,7 +3,7 @@ import { User } from './entity/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserDto } from 'src/user/dto/user.dto';
-import {DeleteResult} from "./result/DeleteResult";
+import { DeleteResult } from "./result/DeleteResult";
 
 @Injectable()
 export class UserService {
@@ -21,12 +21,12 @@ export class UserService {
     }
 
     findById(id: String): Promise<User> {
-        return this.userRepo.findOneOrFail(+id)
+        return this.userRepo.findOneOrFail({ id })
     }
 
     // Login
     findByEmail(email: String): Promise<User> {
-        return this.userRepo.findOne({where: {email: email}})
+        return this.userRepo.findOne({ where: { email } })
     }
 
     async createUser(body: UserDto): Promise<User> {
@@ -35,13 +35,13 @@ export class UserService {
     }
 
     async update(id: String, body: User): Promise<User> {
-        this.userRepo.findOneOrFail(+id)
-        await this.userRepo.update({id: id}, body)
-        return this.userRepo.findOneOrFail(+id)
+        this.userRepo.findOneOrFail({ id })
+        await this.userRepo.update({ id }, body)
+        return this.userRepo.findOneOrFail({ id })
     }
 
     async remove(id: String): Promise<DeleteResult> {
-        await this.userRepo.findOneOrFail(+id)
-        return await this.userRepo.delete(+id)
+        await this.userRepo.findOneOrFail({ id })
+        return await this.userRepo.delete({ id })
     }
 }

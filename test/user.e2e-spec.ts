@@ -6,8 +6,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../src/user/entity/user.entity';
 import * as SqliteConfig from '../database/config/sqlite'
 import { UserService } from '../src/user/user.service';
-import UserUtil from '../src/utils/mocks/user.util';
 import { Repository } from "typeorm";
+import factoryUser from './factory/factories'
+// import * as factory from '../database/factories/user.factory'
 
 describe('UserController (e2e)', () => {
   let app: INestApplication;
@@ -41,23 +42,20 @@ describe('UserController (e2e)', () => {
   })
 
   it('/ (POST)', async () => {
-    const { name, email, password } = UserUtil.giveAMeAValidUser()
+    const user = factoryUser()
     return request(app.getHttpServer())
       .post('/users')
-      .send({ name, email, password })
+      .send(user)
       .expect(201)
       .expect((({ body }) => {
-        expect(body.name).toEqual(name)
-        expect(body.email).toEqual(email)
+        expect(body.name).toEqual(user.name)
+        expect(body.email).toEqual(user.email)
       }))
   });
 
   it('/ (GET)', async () => {
-    const { id, name, email } = await userService.createUser({
-      name: 'Jota',
-      email: 'jota@email.com',
-      password: '123456'
-    })
+    const user = factoryUser()
+    const { id, name, email } = await userService.createUser(user)
 
     return request(app.getHttpServer())
       .get('/users')

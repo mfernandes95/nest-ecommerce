@@ -5,7 +5,7 @@
 [] Escrever TDD e2e
     [X] Config rollback da query (tentar usar o truncate)
     [] Import token JWT
-    [] Import faker data
+    [X] Import faker data
 [] Fazer tratamento de erros (Unauthorized)
 [] Tratar erro de email duplicado
 [] Products

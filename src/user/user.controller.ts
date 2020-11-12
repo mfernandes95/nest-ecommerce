@@ -4,7 +4,7 @@ import { UserResponse } from './api-doc/user.response';
 import { UserDto } from './dto/user.dto';
 import { User } from './entity/user.entity';
 import { UserService } from './user.service'
-import {JwtAuthGuard} from '../auth/shared/jwt-auth.guard' 
+import { JwtAuthGuard } from '../auth/shared/jwt-auth.guard'
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('users')
 export class UserController {
