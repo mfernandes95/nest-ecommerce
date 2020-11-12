@@ -14,7 +14,7 @@ export class UserController {
     @ApiResponse({
         type: UserResponse
     })
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @Get()
     async index(
     ): Promise<User[]> {
