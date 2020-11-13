@@ -99,11 +99,6 @@ describe('UserController (e2e)', () => {
       .delete(`/users/${userCreated.id}`)
       .set("Authorization", `Bearer ${jwt.access_token}`)
       .expect(204)
-    //     .expect({
-    //       id: userCreated.id,
-    //       name: userCreated.name,
-    //       email: userCreated.email
-    //     });
   });
 
   it('Should delete a user by id', async () => {

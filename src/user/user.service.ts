@@ -20,12 +20,12 @@ export class UserService {
     return user
   }
 
-  findById(id: string): Promise<User> {
+  findById(id: String): Promise<User> {
     return this.userRepo.findOneOrFail({ id })
   }
 
   // Login
-  findByEmail(email: string): Promise<User> {
+  findByEmail(email: String): Promise<User> {
     return this.userRepo.findOne({ where: { email } })
   }
 
@@ -34,13 +34,13 @@ export class UserService {
     return await this.userRepo.save(user)
   }
 
-  async update(id: string, body: User): Promise<User> {
+  async update(id: String, body: User): Promise<User> {
     this.userRepo.findOneOrFail({ id })
     await this.userRepo.update({ id }, body)
     return this.userRepo.findOneOrFail({ id })
   }
 
-  async remove(id: string): Promise<DeleteResult> {
+  async remove(id: String): Promise<DeleteResult> {
     await this.userRepo.findOneOrFail({ id })
     return await this.userRepo.delete({ id })
   }
