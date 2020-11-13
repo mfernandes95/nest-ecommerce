@@ -14,6 +14,8 @@ export class AuthService {
 
   async validateUser(userEmail: string, userPassword: string) {
     const user = await this.usersService.findByEmail(userEmail);
+    // if (!user) throw new NotFoundException()
+
 
     if (await this.comparePassword(user.password, userPassword)) {
       const { id, name, email } = user;

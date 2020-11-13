@@ -6,6 +6,18 @@ export class EntityNotFoundExceptionFilter implements ExceptionFilter {
   catch(exception: EntityNotFoundError, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
+    console.log('exeppp', exception);
+    if (exception.message == 'Unauthorized') {
+      return response
+        .status(404)
+        .json({
+          message: {
+            statusCode: 401,
+            error: 'Unauthorized',
+            message: exception.message,
+          },
+        });
+    }
     return response
       .status(404)
       .json({

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { User } from './entity/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -25,8 +25,8 @@ export class UserService {
   }
 
   // Login
-  findByEmail(email: String): Promise<User> {
-    return this.userRepo.findOne({ where: { email } })
+  async findByEmail(email: String): Promise<User> {
+    return await this.userRepo.findOne({ where: { email } })
   }
 
   async createUser(body: UserDto): Promise<User> {
@@ -42,6 +42,9 @@ export class UserService {
 
   async remove(id: String): Promise<DeleteResult> {
     await this.userRepo.findOneOrFail({ id })
+
+    // for use this throw not use findOne insted findOneOrFail
+    // if (!user) throw new HttpException('NOT_FOUNDzzzzz', HttpStatus.NOT_FOUND);
     return await this.userRepo.delete({ id })
   }
 }
