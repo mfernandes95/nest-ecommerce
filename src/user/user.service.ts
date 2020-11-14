@@ -31,6 +31,10 @@ export class UserService {
 
   async createUser(body: UserDto): Promise<User> {
     const user = this.userRepo.create(body)
+
+    if (await this.findByEmail(body.email))
+      throw new HttpException('User Already Exists', 300);
+
     return await this.userRepo.save(user)
   }
 
