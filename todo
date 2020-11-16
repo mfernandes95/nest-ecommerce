@@ -8,4 +8,5 @@
     [X] Import faker data
 [] Fazer tratamento de erros (Unauthorized)
 [] Tratar erro de email duplicado
+[] Arrumar erro do class validator user(Não está retornando a mensagem corretamente)
 [] Products
