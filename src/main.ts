@@ -3,10 +3,14 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { EntityNotFoundExceptionFilter } from './exception-filters/entity-not-found.exception-filter';
 import { HttpExceptionFilter } from './exception-filters/entity-unauthorized.exception-filter';
+import { Container } from 'typedi';
+import { useContainer, Validator } from 'class-validator';
 
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  useContainer(Container);
 
   app.useGlobalFilters(new EntityNotFoundExceptionFilter(), new HttpExceptionFilter());
 

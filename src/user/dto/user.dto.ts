@@ -1,7 +1,9 @@
 import { ApiProperty } from "@nestjs/swagger"
-import { IsString, IsNotEmpty, IsEmail, Matches } from 'class-validator';
-import { Unique } from "typeorm";
+import { IsString, IsNotEmpty, IsEmail, Matches, Validate } from 'class-validator';
+import { User } from "../entity/user.entity";
+// import { Unique } from "typeorm";
 import { Match } from "./match.decorator";
+import { IsUserAlreadyExist } from '../dto/unique-validator';
 
 export class UserDto {
 
@@ -16,7 +18,10 @@ export class UserDto {
     @ApiProperty()
     @IsEmail()
     @IsNotEmpty()
-    // @Unique()
+    // @Validate(UniqueOnDatabase)
+    @IsUserAlreadyExist({
+        message: 'User $value already exists. Choose another email.',
+    })
     email: string;
 
     @ApiProperty()
@@ -26,6 +31,6 @@ export class UserDto {
 
     @ApiProperty()
     @IsNotEmpty()
-    @Match('password')
+    @Match('password', { message: 'Password does not' })
     confirmed_password: string;
 }
