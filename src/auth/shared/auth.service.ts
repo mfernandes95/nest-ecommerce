@@ -1,5 +1,5 @@
 import { UserService } from '../../user/user.service'
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 
@@ -14,10 +14,8 @@ export class AuthService {
 
   async validateUser(userEmail: string, userPassword: string) {
     const user = await this.usersService.findByEmail(userEmail);
-    // if (!user) throw new NotFoundException()
 
-
-    if (await this.comparePassword(user.password, userPassword)) {
+    if (await bcrypt.compare(userPassword, user.password)) {
       const { id, name, email } = user;
       return { id, name, email };
     }
@@ -30,9 +28,5 @@ export class AuthService {
     return {
       access_token: this.jwtService.sign(payload),
     };
-  }
-
-  private async comparePassword(attempt: string, password: string): Promise<boolean> {
-    return await bcrypt.compare(password, attempt);
   }
 }

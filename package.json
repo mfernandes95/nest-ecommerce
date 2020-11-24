@@ -84,6 +84,9 @@
       "ts"
     ],
     "rootDir": "src",
+    "coveragePathIgnorePatterns": [
+      "user/user.controller"
+    ],
     "testRegex": ".spec.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"

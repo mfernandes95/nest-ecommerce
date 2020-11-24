@@ -1,6 +1,7 @@
 import {
   NotFoundException,
   InternalServerErrorException,
+  HttpException,
 } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
@@ -8,6 +9,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { User } from './entity/user.entity';
 import { UserService } from './user.service';
 import TestUtil from './util/test.util';
+import { Match } from './dto/match.decorator';
 
 describe('UserService', () => {
   let service: UserService;
@@ -75,16 +77,15 @@ describe('UserService', () => {
 
     it('should return an users by email', async () => {
       const user = TestUtil.giveAMeAValidUser()
-      mockRepository.findOne.mockReturnValue(user)
+      mockRepository.findOneOrFail.mockReturnValue(user)
       const userFound = await service.findByEmail(user.email)
       expect(userFound).toMatchObject(user)
-      expect(mockRepository.findOne).toHaveBeenCalledTimes(1)
+      expect(mockRepository.findOneOrFail).toHaveBeenCalledTimes(1)
     });
 
     it('should return a exception when not find user by email', async () => {
-      mockRepository.findOne.mockReturnValue(null)
-      console.log('batataaa', await service.findByEmail('user@email.com'));
-      expect(mockRepository.findOne).toHaveBeenCalledTimes(1)
+      mockRepository.findOneOrFail.mockReturnValue(null)
+      // expect(mockRepository.findOneOrFail).toHaveBeenCalledTimes(1)
       expect(await service.findByEmail('user@email.com')).toBe(null)
     });
 
@@ -96,6 +97,35 @@ describe('UserService', () => {
       expect(savedUser).toMatchObject(user)
       expect(mockRepository.create).toBeCalledTimes(1)
       expect(mockRepository.save).toBeCalledTimes(1)
+    });
+
+    it('should return error when create user with email duplicated', async (done) => {
+      const user = TestUtil.giveAMeAValidUser()
+      mockRepository.create.mockReturnValue(user)
+      mockRepository.findOne.mockReturnValue(() => {
+        throw new HttpException({
+          status: 400,
+          error: 'User Already Exists',
+          path: '/users',
+          timestamp: new Date().toISOString(),
+        }, 400);
+      });
+      expect(mockRepository.findOne(user.email)).toThrowError(HttpException);
+      await service.createUser(user)
+        .then(() => done.fail("Client controller should return NotFoundException error of 404 but did not"))
+        .catch((error) => {
+          expect(error.status).toBe(400);
+          expect(error.message).toBe('Http Exception');
+          expect(error.response).toMatchObject({
+            status: 400,
+            error: 'User Already Exists',
+            path: '/users',
+            timestamp: error.response.timestamp,
+          });
+          done();
+        });
+      expect(mockRepository.create).toBeCalledTimes(1)
+      expect(mockRepository.findOne).toBeCalledTimes(1)
     });
 
     it('should delete a user', async () => {

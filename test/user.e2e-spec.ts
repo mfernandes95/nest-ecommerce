@@ -48,6 +48,7 @@ describe('UserController (e2e)', () => {
 
   it('Should create a user', async () => {
     const user = factoryUser()
+
     return request(app.getHttpServer())
       .post('/users')
       .send(user)

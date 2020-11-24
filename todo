@@ -1,12 +1,12 @@
 [X] Escrever TDD Unit
-    [] Import faker data
+    [X] Import faker data
 [X] Login
 [X] Hash password
 [X] Escrever TDD e2e
     [X] Config rollback da query (tentar usar o truncate)
     [X] Import token JWT
     [X] Import faker data
-[] Fazer tratamento de erros (Unauthorized)
-[] Tratar erro de email duplicado
-[] Arrumar erro do class validator user(Não está retornando a mensagem corretamente)
+[X] Fazer tratamento de erros (Unauthorized)
+[X] Tratar erro de email duplicado
+[X] Arrumar erro do class validator user(Não está retornando a mensagem corretamente)
 [] Products

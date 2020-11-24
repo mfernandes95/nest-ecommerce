@@ -10,7 +10,7 @@ export class UserService {
 
   constructor(
     @InjectRepository(User)
-    private userRepo: Repository<User>
+    private readonly userRepo: Repository<User>
   ) {
   }
 
@@ -26,14 +26,20 @@ export class UserService {
 
   // Login
   async findByEmail(email: String): Promise<User> {
-    return await this.userRepo.findOne({ where: { email } })
+    return await this.userRepo.findOneOrFail({ where: { email } })
   }
 
-  async createUser(body: UserDto): Promise<User> {
+  async createUser(body: UserDto | User): Promise<User> {
     const user = this.userRepo.create(body)
 
-    if (await this.findByEmail(body.email))
-      throw new HttpException('User Already Exists', 300);
+    if (await this.userRepo.findOne({ where: { email: body.email } })) {
+      throw new HttpException({
+        status: 400,
+        error: 'User Already Exists',
+        path: '/users',
+        timestamp: new Date().toISOString(),
+      }, 400);
+    }
 
     return await this.userRepo.save(user)
   }

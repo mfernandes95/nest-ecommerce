@@ -9,6 +9,9 @@ import { UserService } from './user/user.service';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import * as PostgresConfig from '../database/config/postgres';
+import { APP_FILTER } from '@nestjs/core';
+import { HttpExceptionFilter } from './exception-filters/http-exception-filter';
+import { EntityNotFoundExceptionFilter } from './exception-filters/entity-not-found.exception-filter';
 
 
 @Module({
@@ -33,6 +36,15 @@ import * as PostgresConfig from '../database/config/postgres';
     UserModule,
   ],
   controllers: [AppController, UserController],
-  providers: [AppService, UserService],
+  providers: [AppService, UserService,
+    {
+      provide: APP_FILTER,
+      useClass: EntityNotFoundExceptionFilter,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
+    }
+  ],
 })
 export class AppModule { }
