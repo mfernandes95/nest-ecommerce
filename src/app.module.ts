@@ -12,6 +12,10 @@ import * as PostgresConfig from '../database/config/postgres';
 import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter } from './exception-filters/http-exception-filter';
 import { EntityNotFoundExceptionFilter } from './exception-filters/entity-not-found.exception-filter';
+import { ProductModule } from './product/product.module';
+import { Product } from './product/entity/product.entity';
+import { ProductService } from './product/product.service';
+import { ProductController } from './product/product.controller';
 
 
 @Module({
@@ -25,18 +29,19 @@ import { EntityNotFoundExceptionFilter } from './exception-filters/entity-not-fo
       username: process.env.TYPEORM_USERNAME,
       password: process.env.TYPEORM_PASSWORD,
       database: process.env.TYPEORM_DATABASE,
-      entities: [User],
+      entities: [User, Product],
       // HEREEEE
       // synchronize: true,
       // logging: true,
       // dropSchema: true,
     }),
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Product]),
     AuthModule,
     UserModule,
+    ProductModule,
   ],
-  controllers: [AppController, UserController],
-  providers: [AppService, UserService,
+  controllers: [AppController, UserController, ProductController],
+  providers: [AppService, UserService, ProductService,
     {
       provide: APP_FILTER,
       useClass: EntityNotFoundExceptionFilter,
