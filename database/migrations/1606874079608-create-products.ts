@@ -23,7 +23,7 @@ export class createProducts1606874079608 implements MigrationInterface {
             {
                 name: 'price',
                 type: 'float',
-                precision: 2
+                // precision: 2
             },
             {
                 name: 'images',
