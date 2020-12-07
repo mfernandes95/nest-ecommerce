@@ -4,12 +4,12 @@ services:
   db_postgres:
     networks:
       - network
-    restart: on-failure
-    image: postgres:12.1-alpine
+    restart: always
+    image: postgres:latest
     container_name: 'postgres_ecommerce'
     environment:
       - POSTGRES_USER=docker
-      - POSTGRES_PASSWORD:docker
+      - POSTGRES_PASSWORD=docker
       - POSTGRES_DB=ecommerce-db
     volumes:
       - './database/postgres:/var/lib/postgresql/data'

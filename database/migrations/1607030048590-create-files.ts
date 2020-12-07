@@ -1,8 +1,9 @@
 import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
 
-export class createProducts1606874079608 implements MigrationInterface {
+export class createFiles1607030048590 implements MigrationInterface {
+
     private table = new Table({
-        name: 'products',
+        name: 'files',
         columns: [
             {
                 name: 'id',
@@ -17,24 +18,15 @@ export class createProducts1606874079608 implements MigrationInterface {
                 type: 'varchar',
             },
             {
-                name: 'description',
+                name: 'product_id',
                 type: 'varchar',
-            },
-            {
-                name: 'price',
-                type: 'float',
-                // precision: 2
+                isNullable: true,
             },
             {
                 name: 'user_id',
                 type: 'varchar',
                 isNullable: true,
             },
-            // {
-            //     name: 'created_at',
-            //     type: 'timestamp',
-            //     default: 'CURRENT_TIMESTAMP'
-            // }
             {
                 name: 'created_at',
                 type: 'timestamptz',
@@ -57,18 +49,17 @@ export class createProducts1606874079608 implements MigrationInterface {
         referencedTableName: 'users',
     });
 
-    // private foreignKeyy = new TableForeignKey({
-    //     columnNames: ['images_id'],
-    //     referencedColumnNames: ['id'],
-    //     onDelete: 'CASCADE',
-    //     referencedTableName: 'files',
-    // });
+    private foreignKeyProduct = new TableForeignKey({
+        columnNames: ['product_id'],
+        referencedColumnNames: ['id'],
+        onDelete: 'CASCADE',
+        referencedTableName: 'products',
+    });
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(this.table)
-        await queryRunner.createForeignKey('products', this.foreignKey)
-        // await queryRunner.createForeignKey('products', this.foreignKeyy)
-
+        await queryRunner.createForeignKey('files', this.foreignKey)
+        await queryRunner.createForeignKey('files', this.foreignKeyProduct)
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
@@ -76,3 +67,24 @@ export class createProducts1606874079608 implements MigrationInterface {
     }
 
 }
+
+// file: {
+//     type: String,
+//         required: true,
+//       },
+// name: {
+//     type: String,
+//         required: true,
+//       },
+// type: {
+//     type: String,
+//         required: true,
+//       },
+// subtype: {
+//     type: String,
+//         required: true,
+//       },
+// user_id: {
+//     type: Number,
+//         // required: true,
+//       },

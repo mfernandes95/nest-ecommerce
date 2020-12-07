@@ -5,14 +5,39 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entity/product.entity';
 import { User } from '../user/entity/user.entity'
+import { File } from './entity/file.entity'
 
 @Injectable()
 export class ProductService {
 
   constructor(
+    @InjectRepository(File)
+    private readonly fileRepo: Repository<File>,
     @InjectRepository(Product)
-    private readonly productRepo: Repository<Product>
+    private readonly productRepo: Repository<Product>,
   ) {
+  }
+
+  async uploadFiles(files, productId, userId): Promise<File> {
+    // const response = [];
+    return files.forEach(async file => {
+      // const fileReponse = {
+      //   originalname: file.originalname,
+      //   filename: file.filename,
+      // };
+      // response.push(fileReponse);
+
+      let xis = this.fileRepo.create({
+        name: file.originalname,
+        productId,
+        userId,
+      })
+
+      await this.fileRepo.save(xis)
+    });
+    // console.log('respppp', response);
+    // return
+    // return response;
   }
 
   async create(createProductDto: CreateProductDto, userId): Promise<Product> {

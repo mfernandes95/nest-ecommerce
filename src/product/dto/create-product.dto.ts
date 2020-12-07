@@ -15,11 +15,6 @@ export class CreateProductDto {
   price: string;
 
   // @IsString()
-  @IsArray()
-  @IsNotEmpty()
-  images: string;
-
-  // @IsString()
   // @IsNotEmpty()
   // user_id: string;
 }

@@ -14,8 +14,10 @@ import { HttpExceptionFilter } from './exception-filters/http-exception-filter';
 import { EntityNotFoundExceptionFilter } from './exception-filters/entity-not-found.exception-filter';
 import { ProductModule } from './product/product.module';
 import { Product } from './product/entity/product.entity';
+import { File } from './product/entity/file.entity';
 import { ProductService } from './product/product.service';
 import { ProductController } from './product/product.controller';
+import { MulterModule } from '@nestjs/platform-express';
 
 
 @Module({
@@ -29,13 +31,16 @@ import { ProductController } from './product/product.controller';
       username: process.env.TYPEORM_USERNAME,
       password: process.env.TYPEORM_PASSWORD,
       database: process.env.TYPEORM_DATABASE,
-      entities: [User, Product],
+      entities: [User, Product, File],
       // HEREEEE
       // synchronize: true,
       // logging: true,
       // dropSchema: true,
     }),
-    TypeOrmModule.forFeature([User, Product]),
+    TypeOrmModule.forFeature([User, Product, File]),
+    MulterModule.register({
+      dest: './files',
+    }),
     AuthModule,
     UserModule,
     ProductModule,

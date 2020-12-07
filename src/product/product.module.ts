@@ -3,13 +3,14 @@ import { ProductService } from './product.service';
 import { ProductController } from './product.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from './entity/product.entity';
+import { File } from './entity/file.entity';
 import { UserModule } from 'src/user/user.module';
 import { User } from 'src/user/entity/user.entity';
 import { FormatPriceMiddleware } from 'src/middlewares/format-price.middleware';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Product]),
+    TypeOrmModule.forFeature([Product, File]),
     UserModule
   ],
   controllers: [ProductController],

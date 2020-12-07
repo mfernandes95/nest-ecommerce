@@ -1,7 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Unique, ManyToOne, JoinColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Unique, ManyToOne, OneToMany, JoinColumn } from "typeorm";
 import { Exclude } from 'class-transformer';
 import * as bcrypt from 'bcryptjs';
 import { User } from "../../user/entity/user.entity";
+import { File } from './file.entity'
 
 @Entity({ name: 'products' })
 export class Product {
@@ -18,8 +19,8 @@ export class Product {
   @Column()
   price: string;
 
-  @Column({ array: true })
-  images: string;
+  // @Column({ array: true })
+  // images_id: string;
 
   @Column({ name: 'user_id' })
   userId: string;
@@ -39,4 +40,20 @@ export class Product {
   @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id' })
   user: User
+
+  @OneToMany(type => File, files => files.product, {
+    eager: true,
+  })
+  files: File[];
+
+  // @OneToMany(() => File)
+  // @JoinColumn({ name: 'imagesId' })
+  // file: File
+
+  // @OneToMany(
+  //   () => File,
+  //   file => file.userId,
+  // )
+  // @JoinColumn({ name: 'imagesId' })
+  // file: File;
 }
