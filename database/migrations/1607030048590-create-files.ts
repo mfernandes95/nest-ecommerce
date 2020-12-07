@@ -14,7 +14,19 @@ export class createFiles1607030048590 implements MigrationInterface {
                 default: 'uuid_generate_v4()',
             },
             {
+                name: 'file',
+                type: 'varchar',
+            },
+            {
                 name: 'name',
+                type: 'varchar',
+            },
+            {
+                name: 'type',
+                type: 'varchar',
+            },
+            {
+                name: 'subtype',
                 type: 'varchar',
             },
             {

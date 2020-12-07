@@ -28,7 +28,10 @@ export class ProductService {
       // response.push(fileReponse);
 
       let xis = this.fileRepo.create({
+        file: file.filename,
         name: file.originalname,
+        type: file.mimetype,
+        subtype: file.mimetype,
         productId,
         userId,
       })

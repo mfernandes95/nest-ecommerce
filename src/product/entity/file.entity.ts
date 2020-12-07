@@ -10,7 +10,16 @@ export class File {
   id: String;
 
   @Column()
+  file: string;
+
+  @Column()
   name: string;
+
+  @Column()
+  type: string;
+
+  @Column()
+  subtype: string;
 
   // @Column()
   // description: string;
