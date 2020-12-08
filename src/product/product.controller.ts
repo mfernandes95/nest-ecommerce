@@ -43,8 +43,10 @@ export class ProductController {
 
   @Delete('files/:id')
   @HttpCode(201)
-  removeFile(@Param('id') id: string) {
-    return this.productService.removeFile(id);
+  async removeFile(@Param('id') id: string): Promise<String> {
+    await this.productService.removeFile(id);
+
+    return 'User Removed!'
   }
 
   // async uploadedFile(@UploadedFile() file) {

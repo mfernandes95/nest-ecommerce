@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -21,6 +21,12 @@ export class ProductService {
   }
 
   async uploadFiles(files, productId, userId): Promise<File> {
+    if (!files) throw new HttpException({
+      status: 400,
+      error: 'Files not found',
+      path: '/files',
+      timestamp: new Date().toISOString(),
+    }, 404);
     return files.forEach(async file => {
       console.log('2222222222222', file);
       let fileUpload = this.fileRepo.create({
