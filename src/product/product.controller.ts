@@ -31,12 +31,20 @@ export class ProductController {
     @UserInfo() user: User,
     @Param('product_id') productId
   ) {
+    console.log('1111111111');
     return this.productService.uploadFiles(files, productId, user.id)
   }
 
-  @Get('/files/:imgpath')
-  seeUploadedFile(@Param('imgpath') image, @Res() res) {
-    return res.sendFile(image, { root: './files' });
+  @Get('/files/:id')
+  async seeUploadedFile(@Param('id') image, @Res() res) {
+    const file = await this.productService.findFileById(image)
+    return res.sendFile(file.file, { root: './files' });
+  }
+
+  @Delete('files/:id')
+  @HttpCode(201)
+  removeFile(@Param('id') id: string) {
+    return this.productService.removeFile(id);
   }
 
   // async uploadedFile(@UploadedFile() file) {
