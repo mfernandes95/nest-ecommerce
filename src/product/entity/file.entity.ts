@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Unique, ManyToOne, OneToMany, JoinColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Unique, ManyToOne, OneToMany, JoinColumn, BeforeInsert } from "typeorm";
 import { Exclude } from 'class-transformer';
 import { Product } from "./product.entity";
 import { User } from "src/user/entity/user.entity";
@@ -19,13 +19,7 @@ export class File {
   type: string;
 
   @Column()
-  subtype: string;
-
-  // @Column()
-  // description: string;
-
-  // @Column()
-  // price: string;
+  url: string;
 
   // @Column({ array: true })
   // images_id: string;
@@ -53,4 +47,9 @@ export class File {
   @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id' })
   user: User
+
+  @BeforeInsert()
+  async hashPassword(): Promise<void> {
+    this.url = `${process.env.APP_URL}/products/files/${this.file}/static`
+  }
 }

@@ -26,7 +26,7 @@ export class createFiles1607030048590 implements MigrationInterface {
                 type: 'varchar',
             },
             {
-                name: 'subtype',
+                name: 'url',
                 type: 'varchar',
             },
             {

@@ -31,8 +31,14 @@ export class ProductController {
     @UserInfo() user: User,
     @Param('product_id') productId
   ) {
-    console.log('1111111111');
+    console.log('1111111111', files);
     return this.productService.uploadFiles(files, productId, user.id)
+  }
+
+  @Get('/files/:imgpath/static')
+  seeFile(@Param('imgpath') image, @Res() res) {
+    console.log('dwdwdwdwd');
+    return res.sendFile(image, { root: './files' });
   }
 
   @Get('/files/:id')

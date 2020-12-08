@@ -27,13 +27,12 @@ export class ProductService {
       path: '/files',
       timestamp: new Date().toISOString(),
     }, 404);
+
     return files.forEach(async file => {
-      console.log('2222222222222', file);
       let fileUpload = this.fileRepo.create({
         file: file.filename,
         name: file.originalname,
         type: file.mimetype,
-        subtype: file.mimetype,
         productId,
         userId,
       })
