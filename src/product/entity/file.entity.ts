@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Unique, ManyToOne, OneToMany, JoinColumn, BeforeInsert } from "typeorm";
 import { Exclude } from 'class-transformer';
 import { Product } from "./product.entity";
-import { User } from "src/user/entity/user.entity";
+import { User } from "../../user/entity/user.entity";
 
 @Entity({ name: 'files' })
 export class File {

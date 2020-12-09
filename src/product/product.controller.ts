@@ -45,10 +45,13 @@ export class ProductController {
     return res.sendFile(file.file, { root: './files' });
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete('files/:id')
   @HttpCode(201)
-  async removeFile(@Param('id') id: string): Promise<String> {
-    await this.productService.removeFile(id);
+  async removeFile(@Param('id') id: string,
+    @UserInfo() user: User,
+  ): Promise<String> {
+    await this.productService.removeFile(id, user.id);
 
     return 'User Removed!'
   }

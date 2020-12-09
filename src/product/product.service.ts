@@ -22,8 +22,8 @@ export class ProductService {
 
   async uploadFiles(files, productId, userId): Promise<File> {
     if (!files) throw new HttpException({
-      status: 400,
-      error: 'Files not found',
+      status: 404,
+      error: 'Add files to upload',
       path: '/files',
       timestamp: new Date().toISOString(),
     }, 404);
@@ -45,9 +45,16 @@ export class ProductService {
     return await this.fileRepo.findOneOrFail({ id })
   }
 
-  async removeFile(id: String) {
+  async removeFile(id: String, userId: String) {
 
     let file = await this.fileRepo.findOneOrFail({ id })
+
+    if (file.userId != userId) throw new HttpException({
+      status: 403,
+      error: 'Not permited!',
+      path: '/products',
+      timestamp: new Date().toISOString(),
+    }, 403);
 
     fs.unlinkSync(`./files/${file.file}`)
     return await this.fileRepo.delete({ id })

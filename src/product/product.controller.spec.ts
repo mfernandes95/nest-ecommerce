@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from './entity/product.entity';
+import { File } from './entity/file.entity';
 import { ProductController } from './product.controller';
 import { ProductService } from './product.service';
 import * as SqliteConfig from '.././../database/config/sqlite';
@@ -16,7 +17,7 @@ describe('ProductController', () => {
         //   envFilePath: '.env.test',
         // }),
         TypeOrmModule.forRoot(SqliteConfig),
-        TypeOrmModule.forFeature([Product])
+        TypeOrmModule.forFeature([Product, File])
       ],
       controllers: [ProductController],
       providers: [ProductService],

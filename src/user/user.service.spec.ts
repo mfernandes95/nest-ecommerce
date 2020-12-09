@@ -60,7 +60,7 @@ describe('UserService', () => {
       expect(mockRepository.find).toHaveBeenCalledTimes(1)
     });
 
-    it('should return an users by ID', async () => {
+    it('should return an user by ID', async () => {
       const user = TestUtil.giveAMeAValidUser()
       mockRepository.findOneOrFail.mockReturnValue(user)
       const userFound = await service.findById(user.id)
