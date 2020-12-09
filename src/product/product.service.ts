@@ -1,6 +1,6 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entity/product.entity';
@@ -66,15 +66,32 @@ export class ProductService {
     return this.productRepo.find()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  findOne(id: String): Promise<Product> {
+    return this.productRepo.findOneOrFail({ id })
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async update(id: String, updateProductDto: UpdateProductDto, userId: String) {
+    const product = await this.productRepo.findOneOrFail({ id })
+
+    if (product.userId != userId) throw new HttpException({
+      status: 403,
+      error: 'Not permited!',
+      path: '/products',
+      timestamp: new Date().toISOString(),
+    }, 403);
+
+    await this.productRepo.update({ id }, updateProductDto)
+    return this.productRepo.findOneOrFail({ id })
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async remove(id: String, userId: String): Promise<DeleteResult> {
+    const product = await this.productRepo.findOneOrFail({ id })
+    if (product.userId != userId) throw new HttpException({
+      status: 403,
+      error: 'Not permited!',
+      path: '/products',
+      timestamp: new Date().toISOString(),
+    }, 403);
+    return await this.productRepo.delete({ id })
   }
 }

@@ -10,3 +10,5 @@
 [X] Tratar erro de email duplicado
 [X] Arrumar erro do class validator user(Não está retornando a mensagem corretamente)
 [] Products
+    [] Terminar testes e CRUD
+[] Implementar logs

@@ -11,6 +11,9 @@ export class HttpExceptionFilter implements ExceptionFilter {
       ? exception.getStatus()
       : HttpStatus.INTERNAL_SERVER_ERROR;
 
+    // f(error.code.toString() === '23505')
+    // throw new ConflictException('Endereço de email já está em uso')
+
     if (status == 401 && exception.message == 'Unauthorized') {
       response
         .status(status)

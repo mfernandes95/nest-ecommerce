@@ -21,6 +21,9 @@ export class ProductModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(FormatPriceMiddleware)
-      .forRoutes({ path: 'products', method: RequestMethod.POST });
+      .forRoutes(
+        { path: 'products', method: RequestMethod.POST },
+        { path: 'products/:id', method: RequestMethod.PUT }
+      );
   }
 }

@@ -31,13 +31,11 @@ export class ProductController {
     @UserInfo() user: User,
     @Param('product_id') productId
   ) {
-    console.log('1111111111', files);
     return this.productService.uploadFiles(files, productId, user.id)
   }
 
   @Get('/files/:imgpath/static')
   seeFile(@Param('imgpath') image, @Res() res) {
-    console.log('dwdwdwdwd');
     return res.sendFile(image, { root: './files' });
   }
 
@@ -64,6 +62,9 @@ export class ProductController {
   //   return response;
   // }
 
+  /**
+   * PRODUCTS
+   */
   @UseGuards(JwtAuthGuard)
   @Post()
   create(@Body() createProductDto: CreateProductDto,
@@ -79,16 +80,27 @@ export class ProductController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.productService.findOne(+id);
+    return this.productService.findOne(id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productService.update(+id, updateProductDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateProductDto: UpdateProductDto,
+    @UserInfo() user: User
+  ) {
+    return this.productService.update(id, updateProductDto, user.id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.productService.remove(+id);
+  async remove(
+    @Param('id') id: String,
+    @UserInfo() user: User
+  ): Promise<String> {
+    await this.productService.remove(id, user.id);
+
+    return 'product Removed!'
   }
 }
