@@ -61,7 +61,6 @@ describe('ProductService', () => {
       const product = TestUtil.giveAMeAValidProduct()
       mockRepository.find.mockReturnValue([product, product])
       const products = await service.findAll()
-      console.log('prodddd', products);
       expect(products).toHaveLength(2);
       expect(mockRepository.find).toHaveBeenCalledTimes(1)
     });
@@ -168,6 +167,63 @@ describe('ProductService', () => {
             status: 404,
             error: 'Add files to upload',
             path: '/files',
+            timestamp: error.response.timestamp,
+          });
+          done();
+        });
+    });
+
+    it('should return error when remove file you are not owner', async (done) => {
+      const file = TestUtil.giveAMeAValidFile()
+      mockRepository.findOneOrFail.mockReturnValue(file)
+
+      await service.removeFile(file.id, '1',)
+        .then(() => done.fail("Product Service should return NotFoundException error of 404 but did not"))
+        .catch((error) => {
+          expect(error.status).toBe(403);
+          expect(error.message).toBe('Http Exception');
+          expect(error.response).toMatchObject({
+            status: 403,
+            error: 'Not permited!',
+            path: '/products',
+            timestamp: error.response.timestamp,
+          });
+          done();
+        });
+    });
+
+    it('should return error when update product you are not owner', async (done) => {
+      const product = TestUtil.giveAMeAValidProduct()
+      mockRepository.findOneOrFail.mockReturnValue(product)
+
+      await service.update(product.id, product, '1')
+        .then(() => done.fail("Product Service should return NotFoundException error of 404 but did not"))
+        .catch((error) => {
+          expect(error.status).toBe(403);
+          expect(error.message).toBe('Http Exception');
+          expect(error.response).toMatchObject({
+            status: 403,
+            error: 'Not permited!',
+            path: '/products',
+            timestamp: error.response.timestamp,
+          });
+          done();
+        });
+    });
+
+    it('should return error when delete product you are not owner', async (done) => {
+      const product = TestUtil.giveAMeAValidProduct()
+      mockRepository.findOneOrFail.mockReturnValue(product)
+
+      await service.remove(product.id, '1')
+        .then(() => done.fail("Product Service should return NotFoundException error of 404 but did not"))
+        .catch((error) => {
+          expect(error.status).toBe(403);
+          expect(error.message).toBe('Http Exception');
+          expect(error.response).toMatchObject({
+            status: 403,
+            error: 'Not permited!',
+            path: '/products',
             timestamp: error.response.timestamp,
           });
           done();

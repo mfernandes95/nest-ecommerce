@@ -85,7 +85,8 @@
     ],
     "rootDir": "src",
     "coveragePathIgnorePatterns": [
-      "user/user.controller"
+      "user/user.controller",
+      "product/product.controller"
     ],
     "testRegex": ".spec.ts$",
     "transform": {
