@@ -31,7 +31,7 @@ export class ProductController {
     @UserInfo() user: User,
     @Param('product_id') productId
   ) {
-    return this.productService.uploadFiles(files, productId, user.id)
+    return await this.productService.uploadFiles(files, productId, user.id)
   }
 
   @Get('/files/:imgpath/static')

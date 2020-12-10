@@ -4,7 +4,6 @@ import { DeleteResult, Repository } from 'typeorm';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entity/product.entity';
-import { User } from '../user/entity/user.entity'
 import { File } from './entity/file.entity'
 // const fs = require('fs')
 import * as fs from 'fs'
@@ -20,7 +19,7 @@ export class ProductService {
   ) {
   }
 
-  async uploadFiles(files, productId, userId): Promise<File> {
+  async uploadFiles(files, productId, userId): Promise<any> {
     if (!files) throw new HttpException({
       status: 404,
       error: 'Add files to upload',
@@ -28,17 +27,38 @@ export class ProductService {
       timestamp: new Date().toISOString(),
     }, 404);
 
-    return files.forEach(async file => {
+    await this.upload(files, productId, userId)
+      .catch(err => {
+        if (err.code == '23503') {
+          throw new HttpException({
+            status: 404,
+            error: 'Foreignkey error!',
+            path: '/files',
+            timestamp: new Date().toISOString(),
+          }, 404);
+        }
+
+        throw new HttpException({
+          status: 400,
+          error: 'upload filed!',
+          path: '/files',
+          timestamp: new Date().toISOString(),
+        }, 400);
+      })
+  }
+
+  private async upload(files, productId, userId) {
+    for (let file in files) {
       let fileUpload = this.fileRepo.create({
-        file: file.filename,
-        name: file.originalname,
-        type: file.mimetype,
+        file: files[file].filename,
+        name: files[file].originalname,
+        type: files[file].mimetype,
         productId,
         userId,
       })
 
       await this.fileRepo.save(fileUpload)
-    });
+    }
   }
 
   async findFileById(id: String): Promise<File> {
