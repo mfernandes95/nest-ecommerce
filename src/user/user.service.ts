@@ -32,16 +32,23 @@ export class UserService {
   async createUser(body: UserDto | User): Promise<User> {
     const user = this.userRepo.create(body)
 
-    if (await this.userRepo.findOne({ where: { email: body.email } })) {
+    return await this.userRepo.save(user).catch(err => {
+      if (err.code == '23505') {
+        throw new HttpException({
+          status: 400,
+          error: 'User Already Exists',
+          path: '/users',
+          timestamp: new Date().toISOString(),
+        }, 400);
+      }
+
       throw new HttpException({
         status: 400,
-        error: 'User Already Exists',
-        path: '/users',
+        error: 'upload filed!',
+        path: '/files',
         timestamp: new Date().toISOString(),
       }, 400);
-    }
-
-    return await this.userRepo.save(user)
+    })
   }
 
   async update(id: String, body: User): Promise<User> {
