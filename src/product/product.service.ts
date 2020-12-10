@@ -27,27 +27,6 @@ export class ProductService {
       timestamp: new Date().toISOString(),
     }, 404);
 
-    await this.upload(files, productId, userId)
-      .catch(err => {
-        if (err.code == '23503') {
-          throw new HttpException({
-            status: 404,
-            error: 'Foreignkey error!',
-            path: '/files',
-            timestamp: new Date().toISOString(),
-          }, 404);
-        }
-
-        throw new HttpException({
-          status: 400,
-          error: 'upload filed!',
-          path: '/files',
-          timestamp: new Date().toISOString(),
-        }, 400);
-      })
-  }
-
-  private async upload(files, productId, userId) {
     for (let file in files) {
       let fileUpload = this.fileRepo.create({
         file: files[file].filename,
@@ -58,6 +37,23 @@ export class ProductService {
       })
 
       await this.fileRepo.save(fileUpload)
+        .catch(err => {
+          if (err.code == '23503') {
+            throw new HttpException({
+              status: 404,
+              error: 'Foreignkey error!',
+              path: '/files',
+              timestamp: new Date().toISOString(),
+            }, 404);
+          }
+
+          throw new HttpException({
+            status: 400,
+            error: 'upload filed!',
+            path: '/files',
+            timestamp: new Date().toISOString(),
+          }, 400);
+        })
     }
   }
 
