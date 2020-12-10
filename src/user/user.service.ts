@@ -44,8 +44,8 @@ export class UserService {
 
       throw new HttpException({
         status: 400,
-        error: 'upload filed!',
-        path: '/files',
+        error: 'Failed to create user!',
+        path: '/users',
         timestamp: new Date().toISOString(),
       }, 400);
     })
