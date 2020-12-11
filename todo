@@ -9,6 +9,8 @@
 [X] Fazer tratamento de erros (Unauthorized)
 [X] Tratar erro de email duplicado
 [X] Arrumar erro do class validator user(Não está retornando a mensagem corretamente)
+[X] Tratar ero de usuário duplicado
 [X] Products
-[] Implementar logs com winston
-[] Tratar ero de usuário duplicado
+[X] Implementar logs com winston
+    [] Salvar logs no MongoDB
+[] Sonar qube

@@ -9,7 +9,7 @@ import { UserService } from './user/user.service';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import * as PostgresConfig from '../database/config/postgres';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { HttpExceptionFilter } from './exception-filters/http-exception-filter';
 import { EntityNotFoundExceptionFilter } from './exception-filters/entity-not-found.exception-filter';
 import { ProductModule } from './product/product.module';
@@ -18,6 +18,9 @@ import { File } from './product/entity/file.entity';
 import { ProductService } from './product/product.service';
 import { ProductController } from './product/product.controller';
 import { MulterModule } from '@nestjs/platform-express';
+import { winstonConfig } from 'config/winston.config';
+import { WinstonModule } from 'nest-winston';
+import { LoggerInterceptor } from './interceptors/logger.interceptor';
 
 
 @Module({
@@ -41,6 +44,7 @@ import { MulterModule } from '@nestjs/platform-express';
     MulterModule.register({
       dest: './files',
     }),
+    WinstonModule.forRoot(winstonConfig),
     AuthModule,
     UserModule,
     ProductModule,
@@ -54,7 +58,11 @@ import { MulterModule } from '@nestjs/platform-express';
     {
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
-    }
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggerInterceptor,
+    },
   ],
 })
 export class AppModule { }

@@ -5,10 +5,13 @@ import { EntityNotFoundExceptionFilter } from './exception-filters/entity-not-fo
 import { HttpExceptionFilter } from './exception-filters/http-exception-filter';
 import { Container } from 'typedi';
 import { useContainer, Validator } from 'class-validator';
+import { winstonConfig } from 'config/winston.config';
+import { WinstonModule } from 'nest-winston';
 
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const logger = WinstonModule.createLogger(winstonConfig);
+  const app = await NestFactory.create(AppModule, { logger });
 
   useContainer(Container);
 
