@@ -21,6 +21,8 @@ import { MulterModule } from '@nestjs/platform-express';
 import { winstonConfig } from 'config/winston.config';
 import { WinstonModule } from 'nest-winston';
 import { LoggerInterceptor } from './interceptors/logger.interceptor';
+import { mailerConfig } from 'config/mailer.config';
+import { MailerModule } from '@nestjs-modules/mailer';
 
 
 @Module({
@@ -45,6 +47,7 @@ import { LoggerInterceptor } from './interceptors/logger.interceptor';
       dest: './files',
     }),
     WinstonModule.forRoot(winstonConfig),
+    MailerModule.forRoot(mailerConfig),
     AuthModule,
     UserModule,
     ProductModule,

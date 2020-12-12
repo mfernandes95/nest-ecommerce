@@ -27,6 +27,16 @@ export class CreateUserTable1597362274197 implements MigrationInterface {
                     name: 'password',
                     type: 'varchar',
                 },
+                {
+                    name: 'confirmation_token',
+                    type: 'varchar',
+                    isNullable: true,
+                },
+                {
+                    name: 'recovery_token',
+                    type: 'varchar',
+                    isNullable: true,
+                },
                 // {
                 //     name: 'created_at',
                 //     type: 'timestamp',

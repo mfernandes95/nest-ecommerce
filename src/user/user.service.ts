@@ -4,13 +4,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserDto } from 'src/user/dto/user.dto';
 import { DeleteResult } from "./result/DeleteResult";
-
+import { MailerService } from '@nestjs-modules/mailer';
+import * as crypto from 'crypto';
 @Injectable()
 export class UserService {
 
   constructor(
     @InjectRepository(User)
-    private readonly userRepo: Repository<User>
+    private readonly userRepo: Repository<User>,
+    private mailerService: MailerService,
   ) {
   }
 
@@ -30,7 +32,23 @@ export class UserService {
   }
 
   async createUser(body: UserDto | User): Promise<User> {
-    const user = this.userRepo.create(body)
+    const user = this.userRepo.create({
+      ...body,
+      confirmationToken: crypto.randomBytes(32).toString('hex')
+    })
+
+    const mail = {
+      to: user.email,
+      from: 'noreply@application.com',
+      subject: 'Email de confirmação',
+      template: 'email-confirmation',
+      context: {
+        token: user.confirmationToken,
+      },
+    };
+
+    console.log('mailll', mail);
+    await this.mailerService.sendMail(mail);
 
     return await this.userRepo.save(user).catch(err => {
       if (err.code == '23505') {
