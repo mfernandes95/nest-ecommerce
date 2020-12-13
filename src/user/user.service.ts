@@ -6,6 +6,7 @@ import { UserDto } from 'src/user/dto/user.dto';
 import { DeleteResult } from "./result/DeleteResult";
 import { MailerService } from '@nestjs-modules/mailer';
 import * as crypto from 'crypto';
+import { UpdateUserDto } from './dto/update-user.dto';
 @Injectable()
 export class UserService {
 
@@ -69,9 +70,10 @@ export class UserService {
     })
   }
 
-  async update(id: String, body: User): Promise<User> {
+  async update(id: String, userUpdateDto: UpdateUserDto): Promise<User> {
+    console.log('dwhadwahdaidawdd==================');
     this.userRepo.findOneOrFail({ id })
-    await this.userRepo.update({ id }, body)
+    await this.userRepo.update({ id }, userUpdateDto)
     return this.userRepo.findOneOrFail({ id })
   }
 

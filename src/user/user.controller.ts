@@ -47,7 +47,7 @@ export class UserController {
     @ApiResponse({
         type: UserResponse
     })
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @Put(':id')
     async update(
         @Param('id') id: String,

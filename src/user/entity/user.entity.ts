@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, BeforeInsert, UpdateDateColumn, Unique, AfterInsert } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, BeforeInsert, UpdateDateColumn, AfterLoad, Unique, AfterInsert, BeforeUpdate } from "typeorm";
 import { Exclude } from 'class-transformer';
 import * as bcrypt from 'bcryptjs';
 import * as crypto from 'crypto';
@@ -42,8 +42,15 @@ export class User {
     updatedAt: Date;
 
     @BeforeInsert()
+    // @AfterLoad()
+    @BeforeUpdate()
     async hashPassword(): Promise<void> {
-        this.password = await bcrypt.hash(this.password, 10);
+        console.log('pass', this.password);
+        if (this.password) {
+            console.log('DENTROOO');
+            this.password = await bcrypt.hash(this.password, 10);
+
+        }
     }
 
     // @BeforeInsert()

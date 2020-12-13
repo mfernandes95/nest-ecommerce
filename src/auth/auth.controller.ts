@@ -2,6 +2,7 @@ import { AuthService } from './shared/auth.service';
 import { LocalAuthGuard } from './shared/local-auth.guard';
 import { Controller, UseGuards, Request, Post, Patch, Param, Body } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
+import { ChangePasswordDto } from './dto/change.password';
 
 @Controller()
 export class AuthController {
@@ -32,6 +33,18 @@ export class AuthController {
     await this.authService.sendRecoverPasswordEmail(email);
     return {
       message: 'Foi enviado um email com instruções para resetar sua senha',
+    };
+  }
+
+  @Patch('/reset-password/:token')
+  async resetPassword(
+    @Param('token') token: string,
+    @Body() changePasswordDto: ChangePasswordDto,
+  ): Promise<{ message: string }> {
+    await this.authService.resetPassword(token, changePasswordDto);
+
+    return {
+      message: 'Senha alterada com sucesso',
     };
   }
 }

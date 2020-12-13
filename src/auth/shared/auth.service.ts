@@ -4,18 +4,21 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { MailerService } from '@nestjs-modules/mailer';
 import { Repository } from 'typeorm';
-import { User } from 'src/user/entity/user.entity';
+import { User } from '../../user/entity/user.entity';
 import * as crypto from 'crypto';
+import { ChangePasswordDto } from '../dto/change.password';
+import { InjectRepository } from '@nestjs/typeorm';
 
 
 @Injectable()
 export class AuthService {
 
   constructor(
-    private usersService: UserService,
-    private jwtService: JwtService,
+    @InjectRepository(User)
     private readonly userRepo: Repository<User>,
     private mailerService: MailerService,
+    private usersService: UserService,
+    private jwtService: JwtService,
   ) { }
 
   async validateUser(userEmail: string, userPassword: string) {
@@ -52,7 +55,10 @@ export class AuthService {
     const user = await this.userRepo.findOneOrFail({ email });
 
     user.recoverToken = crypto.randomBytes(32).toString('hex');
-    await user.save();
+    // await user.save();
+
+    await this.userRepo.update({ id: user.id }, { recoverToken: crypto.randomBytes(32).toString('hex') })
+
 
     const mail = {
       to: user.email,
@@ -64,5 +70,36 @@ export class AuthService {
       },
     };
     await this.mailerService.sendMail(mail);
+  }
+
+  async changePassword(
+    id: String,
+    changePasswordDto: ChangePasswordDto,
+  ): Promise<void> {
+    // const { password, confirmed_password } = changePasswordDto;
+    // await bcrypt.hash(changePasswordDto.password, 10)
+
+    // await this.userRepo.changePassword(id, password);
+    await this.userRepo.update({ id }, { password: await bcrypt.hash(changePasswordDto.password, 10) })
+
+  }
+
+  async resetPassword(
+    recoverToken: string,
+    changePasswordDto: ChangePasswordDto,
+  ): Promise<void> {
+    const user = await this.userRepo.findOneOrFail(
+      { recoverToken },
+      {
+        select: ['id'],
+      },
+    );
+    // if (!user) throw new NotFoundException('Token inválido.');
+
+    await this.changePassword(user.id, changePasswordDto);
+    // try {
+    // } catch (error) {
+    //   throw error;
+    // }
   }
 }
