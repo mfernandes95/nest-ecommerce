@@ -56,27 +56,7 @@ export class AuthService {
     user.recoverToken = crypto.randomBytes(32).toString('hex');
     this.userRepo.save(user)
 
-    const mail = {
-      to: user.email,
-      from: 'noreply@application.com',
-      subject: 'Recuperação de senha',
-      template: 'recover-password',
-      context: {
-        token: user.recoverToken,
-      },
-    };
-
-    await this.mailerService.sendMail(mail);
   }
-
-  // async changePassword(
-  //   id: String,
-  //   changePasswordDto: ChangePasswordDto,
-  // ): Promise<void> {
-  //   const user = await this.userRepo.findOneOrFail({ id });
-  //   user.password = changePasswordDto.password
-  //   this.userRepo.save(user)
-  // }
 
   async resetPassword(
     recoverToken: string,

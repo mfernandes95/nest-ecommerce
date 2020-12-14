@@ -40,35 +40,4 @@ export class User {
     @Exclude()
     @UpdateDateColumn({ name: 'updated_at' })
     updatedAt: Date;
-
-    @BeforeInsert()
-    @BeforeUpdate()
-    async hashPassword(): Promise<void> {
-        console.log('pass', this.password);
-        if (this.password)
-            this.password = await bcrypt.hash(this.password, 10);
-    }
-
-    // @BeforeInsert()
-    // async setTokenConfirmation(): Promise<void> {
-    //     this.confirmationToken = crypto.randomBytes(32).toString('hex');
-    // }
-
-
-    // @AfterInsert()
-    // async sendConfirmationMail() {
-    //     let mailerService: MailerService
-    //     const mail = {
-    //         to: this.email,
-    //         from: 'noreply@application.com',
-    //         subject: 'Email de confirmação',
-    //         template: 'email-confirmation',
-    //         // context: {
-    //         //   token: user.confirmationToken,
-    //         // },
-    //     };
-
-    //     console.log('mailll', mail);
-    //     await mailerService.sendMail(mail);
-    // }
 }

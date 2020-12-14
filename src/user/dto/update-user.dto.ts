@@ -15,8 +15,8 @@ export class UpdateUserDto {
   // @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, { message: 'password too weak', })
   password: string;
 
-  @ApiProperty()
-  // @IsNotEmpty()
-  @Match('password', { message: 'Password does not' })
-  confirmed_password: string;
+  //   @ApiProperty()
+  //   // @IsNotEmpty()
+  //   @Match('password', { message: 'Password does not' })
+  //   confirmed_password: string;
 }

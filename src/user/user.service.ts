@@ -5,7 +5,6 @@ import { Repository } from 'typeorm';
 import { UserDto } from 'src/user/dto/user.dto';
 import { DeleteResult } from "./result/DeleteResult";
 import { MailerService } from '@nestjs-modules/mailer';
-import * as crypto from 'crypto';
 import { UpdateUserDto } from './dto/update-user.dto';
 @Injectable()
 export class UserService {
@@ -33,23 +32,7 @@ export class UserService {
   }
 
   async createUser(body: UserDto | User): Promise<User> {
-    const user = this.userRepo.create({
-      ...body,
-      confirmationToken: crypto.randomBytes(32).toString('hex')
-    })
-
-    const mail = {
-      to: user.email,
-      from: 'noreply@application.com',
-      subject: 'Email de confirmação',
-      template: 'email-confirmation',
-      context: {
-        token: user.confirmationToken,
-      },
-    };
-
-    console.log('mailll', mail);
-    await this.mailerService.sendMail(mail);
+    const user = this.userRepo.create(body)
 
     return await this.userRepo.save(user).catch(err => {
       if (err.code == '23505') {
@@ -80,15 +63,10 @@ export class UserService {
   //   // return user
   // }
 
-  async update(id: String, userUpdateDto): Promise<User> {
-    const user = await this.userRepo.findOneOrFail({ id })
-    console.log('dwhadwahdaidawdd==================', userUpdateDto);
-    user.name = userUpdateDto.name;
-    user.password = userUpdateDto.password
-    // await this.userRepo.update({ id }, userUpdateDto)
-    await this.userRepo.save(user)
-    // return this.userRepo.findOneOrFail({ id })
-    return user
+  async update(id: String, updateUserDto: UpdateUserDto): Promise<User> {
+    await this.userRepo.findOneOrFail({ id })
+    await this.userRepo.update({ id }, { ...updateUserDto })
+    return await this.userRepo.findOneOrFail({ id })
   }
 
   async remove(id: String): Promise<DeleteResult> {

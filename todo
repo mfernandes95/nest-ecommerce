@@ -13,4 +13,6 @@
 [X] Products
 [X] Implementar logs com winston
     [] Salvar logs no MongoDB
+[] Envio de Email para confirmar cadastro
+[] Envio de email para recupéração de password
 [] Sonar qube

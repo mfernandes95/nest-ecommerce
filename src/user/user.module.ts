@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { User } from './entity/user.entity';
 import { MailerService } from "@nestjs-modules/mailer";
+import { UserSubscriber } from './entity/user.subscribe';
 
 
 @Module({
@@ -12,7 +13,7 @@ import { MailerService } from "@nestjs-modules/mailer";
     TypeOrmModule.forFeature([User]),
   ],
   controllers: [UserController],
-  providers: [UserService],
+  providers: [UserService, UserSubscriber],
   exports: [UserService],
 })
 export class UserModule { }
