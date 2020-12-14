@@ -42,15 +42,11 @@ export class User {
     updatedAt: Date;
 
     @BeforeInsert()
-    // @AfterLoad()
     @BeforeUpdate()
     async hashPassword(): Promise<void> {
         console.log('pass', this.password);
-        if (this.password) {
-            console.log('DENTROOO');
+        if (this.password)
             this.password = await bcrypt.hash(this.password, 10);
-
-        }
     }
 
     // @BeforeInsert()

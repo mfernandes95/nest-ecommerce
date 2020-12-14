@@ -5,6 +5,7 @@ import { UserDto } from './dto/user.dto';
 import { User } from './entity/user.entity';
 import { UserService } from './user.service'
 import { JwtAuthGuard } from '../auth/shared/jwt-auth.guard'
+import { UpdateUserDto } from './dto/update-user.dto';
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('users')
 export class UserController {
@@ -47,13 +48,13 @@ export class UserController {
     @ApiResponse({
         type: UserResponse
     })
-    // @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard)
     @Put(':id')
     async update(
         @Param('id') id: String,
-        @Body() body: User,
+        @Body(new ValidationPipe) updateUserDto: UpdateUserDto,
     ): Promise<User> {
-        return await this.userService.update(id, body)
+        return await this.userService.update(id, updateUserDto)
     }
 
     @UseGuards(JwtAuthGuard)

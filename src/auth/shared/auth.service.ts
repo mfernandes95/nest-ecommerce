@@ -53,12 +53,8 @@ export class AuthService {
 
   async sendRecoverPasswordEmail(email: string): Promise<void> {
     const user = await this.userRepo.findOneOrFail({ email });
-
     user.recoverToken = crypto.randomBytes(32).toString('hex');
-    // await user.save();
-
-    await this.userRepo.update({ id: user.id }, { recoverToken: crypto.randomBytes(32).toString('hex') })
-
+    this.userRepo.save(user)
 
     const mail = {
       to: user.email,
@@ -69,20 +65,18 @@ export class AuthService {
         token: user.recoverToken,
       },
     };
+
     await this.mailerService.sendMail(mail);
   }
 
-  async changePassword(
-    id: String,
-    changePasswordDto: ChangePasswordDto,
-  ): Promise<void> {
-    // const { password, confirmed_password } = changePasswordDto;
-    // await bcrypt.hash(changePasswordDto.password, 10)
-
-    // await this.userRepo.changePassword(id, password);
-    await this.userRepo.update({ id }, { password: await bcrypt.hash(changePasswordDto.password, 10) })
-
-  }
+  // async changePassword(
+  //   id: String,
+  //   changePasswordDto: ChangePasswordDto,
+  // ): Promise<void> {
+  //   const user = await this.userRepo.findOneOrFail({ id });
+  //   user.password = changePasswordDto.password
+  //   this.userRepo.save(user)
+  // }
 
   async resetPassword(
     recoverToken: string,
@@ -91,15 +85,12 @@ export class AuthService {
     const user = await this.userRepo.findOneOrFail(
       { recoverToken },
       {
-        select: ['id'],
+        select: ['id', 'password'],
       },
     );
-    // if (!user) throw new NotFoundException('Token inválido.');
 
-    await this.changePassword(user.id, changePasswordDto);
-    // try {
-    // } catch (error) {
-    //   throw error;
-    // }
+    user.password = changePasswordDto.password
+    user.recoverToken = null
+    this.userRepo.save(user)
   }
 }

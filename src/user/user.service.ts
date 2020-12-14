@@ -70,11 +70,25 @@ export class UserService {
     })
   }
 
-  async update(id: String, userUpdateDto: UpdateUserDto): Promise<User> {
-    console.log('dwhadwahdaidawdd==================');
-    this.userRepo.findOneOrFail({ id })
-    await this.userRepo.update({ id }, userUpdateDto)
-    return this.userRepo.findOneOrFail({ id })
+  // async update(id: String, userUpdateDto: UpdateUserDto): Promise<User> {
+  //   const user = await this.userRepo.findOneOrFail({ id })
+  //   console.log('userrr', userUpdateDto);
+  //   await this.userRepo.update({ id }, userUpdateDto)
+  //   // user.name = userUpdateDto.name
+  //   await this.userRepo.save(user)
+  //   return this.userRepo.findOneOrFail({ id })
+  //   // return user
+  // }
+
+  async update(id: String, userUpdateDto): Promise<User> {
+    const user = await this.userRepo.findOneOrFail({ id })
+    console.log('dwhadwahdaidawdd==================', userUpdateDto);
+    user.name = userUpdateDto.name;
+    user.password = userUpdateDto.password
+    // await this.userRepo.update({ id }, userUpdateDto)
+    await this.userRepo.save(user)
+    // return this.userRepo.findOneOrFail({ id })
+    return user
   }
 
   async remove(id: String): Promise<DeleteResult> {
