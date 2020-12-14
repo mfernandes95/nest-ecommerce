@@ -30,10 +30,11 @@ export class UserSubscriber implements EntitySubscriberInterface<User> {
   }
 
   async beforeUpdate(event: InsertEvent<User>) {
-    console.log('xxxxxxxxx');
     if (event.entity.password)
       event.entity.password = await bcrypt.hash(event.entity.password, 10);
+  }
 
+  async afterUpdate(event: InsertEvent<User>) {
     if (event.entity.recoverToken) {
       console.log('baaaa');
       const mail = {
