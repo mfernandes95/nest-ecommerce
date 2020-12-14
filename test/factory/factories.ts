@@ -1,6 +1,6 @@
 import { User } from '../../src/user/entity/user.entity'
 import { name, internet } from 'faker';
-import { UserDto } from 'src/user/dto/user.dto';
+import { CreateUserDto } from 'src/user/dto/user.dto';
 
 const factoryUser = () => {
     // const user = new User();
@@ -10,7 +10,7 @@ const factoryUser = () => {
     // return user;
     const password = internet.password()
 
-    const user: UserDto = {
+    const user: CreateUserDto = {
         name: name.firstName(),
         email: internet.email(),
         password: password,

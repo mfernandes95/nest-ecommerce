@@ -1,9 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, BeforeInsert, UpdateDateColumn, AfterLoad, Unique, AfterInsert, BeforeUpdate } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { Exclude } from 'class-transformer';
-import * as bcrypt from 'bcryptjs';
-import * as crypto from 'crypto';
-import { MailerService } from "@nestjs-modules/mailer";
-
 @Entity({ name: 'users' })
 export class User {
 

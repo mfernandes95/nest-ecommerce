@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { User } from './entity/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserDto } from 'src/user/dto/user.dto';
+import { CreateUserDto } from 'src/user/dto/user.dto';
 import { DeleteResult } from "./result/DeleteResult";
 import { MailerService } from '@nestjs-modules/mailer';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -12,7 +12,6 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepo: Repository<User>,
-    private mailerService: MailerService,
   ) {
   }
 
@@ -31,7 +30,7 @@ export class UserService {
     return await this.userRepo.findOneOrFail({ where: { email } })
   }
 
-  async createUser(body: UserDto | User): Promise<User> {
+  async createUser(body: CreateUserDto | User): Promise<User> {
     const user = this.userRepo.create(body)
 
     return await this.userRepo.save(user).catch(err => {
@@ -53,19 +52,9 @@ export class UserService {
     })
   }
 
-  // async update(id: String, userUpdateDto: UpdateUserDto): Promise<User> {
-  //   const user = await this.userRepo.findOneOrFail({ id })
-  //   console.log('userrr', userUpdateDto);
-  //   await this.userRepo.update({ id }, userUpdateDto)
-  //   // user.name = userUpdateDto.name
-  //   await this.userRepo.save(user)
-  //   return this.userRepo.findOneOrFail({ id })
-  //   // return user
-  // }
-
   async update(id: String, updateUserDto: UpdateUserDto): Promise<User> {
     await this.userRepo.findOneOrFail({ id })
-    await this.userRepo.update({ id }, { ...updateUserDto })
+    await this.userRepo.update({ id }, updateUserDto)
     return await this.userRepo.findOneOrFail({ id })
   }
 

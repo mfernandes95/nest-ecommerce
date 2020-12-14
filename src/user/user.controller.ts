@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, ValidationPipe, UseInterceptors, ClassSerializerInterceptor, UseGuards } from '@nestjs/common';
 import { ApiCreatedResponse, ApiResponse } from '@nestjs/swagger';
 import { UserResponse } from './api-doc/user.response';
-import { UserDto } from './dto/user.dto';
+import { CreateUserDto } from './dto/user.dto';
 import { User } from './entity/user.entity';
 import { UserService } from './user.service'
 import { JwtAuthGuard } from '../auth/shared/jwt-auth.guard'
@@ -40,7 +40,7 @@ export class UserController {
     @Post()
     async store(
         @Body(new ValidationPipe)
-        body: UserDto
+        body: CreateUserDto
     ): Promise<User> {
         return await this.userService.createUser(body)
     }
@@ -52,7 +52,7 @@ export class UserController {
     @Put(':id')
     async update(
         @Param('id') id: String,
-        @Body(new ValidationPipe) updateUserDto: UpdateUserDto,
+        @Body(new ValidationPipe({ skipMissingProperties: true })) updateUserDto: UpdateUserDto,
     ): Promise<User> {
         return await this.userService.update(id, updateUserDto)
     }

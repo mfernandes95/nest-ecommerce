@@ -5,7 +5,7 @@ import { User } from "../entity/user.entity";
 import { Match } from "./match.decorator";
 import { IsUserAlreadyExist } from '../dto/unique-validator';
 
-export class UserDto {
+export class CreateUserDto {
 
     @ApiProperty({
         type: String,
@@ -31,6 +31,6 @@ export class UserDto {
 
     @ApiProperty()
     @IsNotEmpty()
-    @Match('password', { message: 'Password does not' })
+    @Match('password', { message: 'Password does not match' })
     confirmed_password: string;
 }
