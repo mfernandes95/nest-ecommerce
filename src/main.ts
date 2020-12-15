@@ -8,17 +8,15 @@ import { useContainer, Validator } from 'class-validator';
 import { winstonConfig } from 'config/winston.config';
 import { WinstonModule } from 'nest-winston';
 
-
 async function bootstrap() {
+
   const logger = WinstonModule.createLogger(winstonConfig);
-  const app = await NestFactory.create(AppModule, { logger });
+  const app = await NestFactory.create(AppModule, {
+    logger: process.env.NODE_ENV == 'production' ?
+      logger : ['debug', 'verbose', 'warn', 'error']
+  });
 
   useContainer(Container);
-
-  // app.useGlobalFilters(
-  //   new EntityNotFoundExceptionFilter(),
-  //   new HttpExceptionFilter()
-  // );
 
   const options = new DocumentBuilder()
     .setTitle('Nest.Js API')
@@ -28,6 +26,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options)
   SwaggerModule.setup('api', app, document)
 
-  await app.listen(3333);
+  console.log('PORT', process.env.PORT);
+  await app.listen(parseInt(process.env.PORT) || 3000, process.env.HOST || '0.0.0.0');
 }
 bootstrap();
