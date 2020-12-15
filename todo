@@ -14,7 +14,7 @@
 [X] Implementar logs com winston
     [X] Salvar logs no MongoDB
     [] Interceptor post request
-    [] Imṕortar .env no interceptor
+    [X] Imṕortar .env no interceptor
 [] Fixing userUpdateDto
 [X] Envio de Email para confirmar cadastro
 [X] Envio de email para recupéração de password

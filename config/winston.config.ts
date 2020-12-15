@@ -4,18 +4,21 @@ import {
 } from 'nest-winston';
 import * as winston from 'winston';
 import { MongoDB } from 'winston-mongodb'
+// require('dotenv')
+import 'dotenv/config';
+
 
 const DB_URL = 'mongodb://db_mongo:27017/nest-ecommerce'
 
 const options = {
   console: {
-    db: DB_URL,
+    db: process.env.MONGO_URL,
     level: 'info',
     format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
     collection: 'logs',
   },
   error: {
-    db: DB_URL,
+    db: process.env.MONGO_URL,
     level: 'error',
     format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
     collection: 'logs',
@@ -47,5 +50,3 @@ export const winstonConfig: WinstonModuleOptions = {
 
   ],
 };
-
-console.log('batata', process.env.MONGO_URL);

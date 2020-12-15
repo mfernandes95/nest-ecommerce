@@ -23,11 +23,12 @@ import { WinstonModule } from 'nest-winston';
 import { LoggerInterceptor } from './interceptors/logger.interceptor';
 import { mailerConfig } from 'config/mailer.config';
 import { MailerModule } from '@nestjs-modules/mailer';
-
-
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      // envFilePath: '.env',
+    }),
     TypeOrmModule.forRoot({
       // @ts-ignore
       type: process.env.TYPEORM_CONNECTION,
