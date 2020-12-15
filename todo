@@ -12,7 +12,9 @@
 [X] Tratar ero de usuário duplicado
 [X] Products
 [X] Implementar logs com winston
-    [] Salvar logs no MongoDB
+    [X] Salvar logs no MongoDB
+    [] Interceptor post request
+    [] Imṕortar .env no interceptor
 [] Fixing userUpdateDto
 [X] Envio de Email para confirmar cadastro
 [X] Envio de email para recupéração de password

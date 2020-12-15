@@ -26,7 +26,6 @@ export const winstonConfig: WinstonModuleOptions = {
   levels: winston.config.npm.levels,
   level: 'verbose',
   transports: [
-
     // Terminal
     new winston.transports.Console({
       format: winston.format.combine(
@@ -48,3 +47,5 @@ export const winstonConfig: WinstonModuleOptions = {
 
   ],
 };
+
+console.log('batata', process.env.MONGO_URL);
