@@ -23,7 +23,7 @@ export class LoggerInterceptor implements NestInterceptor {
     const user = (req as any).user;
     const userEmail = user ? user.email : null;
 
-    if (process.env.NODE_ENV == 'production') {
+    if (process.env.NODE_ENV === 'production') {
       this.logger.info({
         timestamp: new Date().toISOString(),
         method: req.method,

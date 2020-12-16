@@ -4,11 +4,7 @@ import {
 } from 'nest-winston';
 import * as winston from 'winston';
 import { MongoDB } from 'winston-mongodb'
-// require('dotenv')
 import 'dotenv/config';
-
-
-const DB_URL = 'mongodb://db_mongo:27017/nest-ecommerce'
 
 const options = {
   console: {

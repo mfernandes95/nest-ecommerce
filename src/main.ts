@@ -12,7 +12,7 @@ async function bootstrap() {
 
   const logger = WinstonModule.createLogger(winstonConfig);
   const app = await NestFactory.create(AppModule, {
-    logger: process.env.NODE_ENV == 'production' ?
+    logger: process.env.NODE_ENV === 'production' ?
       logger : ['debug', 'verbose', 'warn', 'error']
   });
 
@@ -26,7 +26,8 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options)
   SwaggerModule.setup('api', app, document)
 
-  console.log('PORT', process.env.PORT);
-  await app.listen(parseInt(process.env.PORT) || 3000, process.env.HOST || '0.0.0.0');
+  await app.listen(parseInt(process.env.PORT) || 3333, process.env.HOST || '0.0.0.0', () => {
+    console.log(`Server runing on port:${process.env.PORT || 3333}`);
+  });
 }
 bootstrap();
