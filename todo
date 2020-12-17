@@ -13,7 +13,8 @@
 [X] Products
 [X] Implementar logs com winston
     [X] Salvar logs no MongoDB
-    [] Interceptor post request
+    [X] Interceptor post request
+    [] Interceptor exception
     [X] Imṕortar .env no interceptor
 [] Fixing userUpdateDto
 [X] Envio de Email para confirmar cadastro
