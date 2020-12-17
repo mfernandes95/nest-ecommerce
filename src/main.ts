@@ -7,6 +7,7 @@ import { Container } from 'typedi';
 import { useContainer, Validator } from 'class-validator';
 import { winstonConfig } from 'config/winston.config';
 import { WinstonModule } from 'nest-winston';
+declare const module: any;
 
 async function bootstrap() {
 
@@ -29,5 +30,10 @@ async function bootstrap() {
   await app.listen(parseInt(process.env.PORT) || 3333, process.env.HOST || '0.0.0.0', () => {
     console.log(`Server runing on port:${process.env.PORT || 3333}`);
   });
+
+  if (module.hot) {
+    module.hot.accept();
+    module.hot.dispose(() => app.close());
+  }
 }
 bootstrap();
