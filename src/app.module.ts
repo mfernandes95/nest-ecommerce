@@ -29,20 +29,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
       isGlobal: true,
       // envFilePath: '.env',
     }),
-    TypeOrmModule.forRoot({
-      // @ts-ignore
-      type: process.env.TYPEORM_CONNECTION,
-      host: process.env.TYPEORM_HOST,
-      port: parseInt(process.env.TYPEORM_PORT),
-      username: process.env.TYPEORM_USERNAME,
-      password: process.env.TYPEORM_PASSWORD,
-      database: process.env.TYPEORM_DATABASE,
-      entities: [User, Product, File],
-      // HEREEEE
-      // synchronize: true,
-      // logging: true,
-      // dropSchema: true,
-    }),
+    TypeOrmModule.forRoot(PostgresConfig),
     TypeOrmModule.forFeature([User, Product, File]),
     MulterModule.register({
       dest: './files',

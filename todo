@@ -14,9 +14,12 @@
 [X] Implementar logs com winston
     [X] Salvar logs no MongoDB
     [X] Interceptor post request
-    [] Interceptor exception
+    [X] Interceptor exception
     [X] Imṕortar .env no interceptor
-[] Fixing userUpdateDto
 [X] Envio de Email para confirmar cadastro
 [X] Envio de email para recupéração de password
-[] Sonar qube
+[X] Sonar qube
+    [] Fazer as correções do sonar
+[] Fixing userUpdateDto
+
+[] Escrever documentação
