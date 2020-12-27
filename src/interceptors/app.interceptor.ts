@@ -15,7 +15,6 @@ export class AppInterceptor implements NestInterceptor {
       // After calling handle(), the RxJs response object is obtained, and the return value of the routing function can be obtained by tap.
       const host = context.switchToHttp();
       const request = host.getRequest<Request>();
-      console.log('resppp', JSON.stringify(response));
 
       // Print request method, request link, processing time and response data
       this.logger.log(format(

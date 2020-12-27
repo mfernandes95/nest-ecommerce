@@ -14,7 +14,6 @@ export class IsUserAlreadyExistConstraint implements ValidatorConstraintInterfac
   constructor(private readonly userService: UserService) { }
 
   async validate(email: String, args: ValidationArguments) {
-    console.log('irmaassss');
     // return false
     return await this.userService.findByEmail(email).then(user => {
       if (user) return false;
@@ -45,7 +44,6 @@ export function IsUserAlreadyExist(validationOptions?: ValidationOptions) {
 //   constructor(protected readonly userService: UserService) { }
 
 //   async validate(text: String) {
-//     console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',);
 //     const user = await this.userService.findByEmail(text);
 //     // const user = await this.userService.batata();
 //     return !user;

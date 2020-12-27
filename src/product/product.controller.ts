@@ -56,15 +56,6 @@ export class ProductController {
     return 'User Removed!'
   }
 
-  // async uploadedFile(@UploadedFile() file) {
-  //   console.log('fileee', file);
-  //   const response = {
-  //     originalname: file.originalname,
-  //     filename: file.filename,
-  //   };
-  //   return response;
-  // }
-
   /**
    * PRODUCTS
    */

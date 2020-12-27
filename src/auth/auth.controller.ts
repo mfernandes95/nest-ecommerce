@@ -1,7 +1,6 @@
 import { AuthService } from './shared/auth.service';
 import { LocalAuthGuard } from './shared/local-auth.guard';
 import { Controller, UseGuards, Request, Post, Patch, Param, Body } from '@nestjs/common';
-import { UserService } from 'src/user/user.service';
 import { ChangePasswordDto } from './dto/change.password';
 
 @Controller()
@@ -9,7 +8,6 @@ export class AuthController {
 
   constructor(
     private authService: AuthService,
-    private userService: UserService
   ) { }
 
   @UseGuards(LocalAuthGuard)
