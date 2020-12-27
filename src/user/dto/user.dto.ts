@@ -1,9 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger"
-import { IsString, IsNotEmpty, IsEmail, Matches, Validate } from 'class-validator';
-import { User } from "../entity/user.entity";
+import { IsString, IsNotEmpty, IsEmail, Matches } from 'class-validator';
 // import { Unique } from "typeorm";
 import { Match } from "./match.decorator";
-import { IsUserAlreadyExist } from '../dto/unique-validator';
 
 export class CreateUserDto {
 

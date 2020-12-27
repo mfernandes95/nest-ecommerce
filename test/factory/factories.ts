@@ -1,4 +1,3 @@
-import { User } from '../../src/user/entity/user.entity'
 import { name, internet } from 'faker';
 import { CreateUserDto } from 'src/user/dto/user.dto';
 

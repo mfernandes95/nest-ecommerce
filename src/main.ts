@@ -1,10 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import { EntityNotFoundExceptionFilter } from './exception-filters/entity-not-found.exception-filter';
-import { HttpExceptionFilter } from './exception-filters/http-exception-filter';
 import { Container } from 'typedi';
-import { useContainer, Validator } from 'class-validator';
+import { useContainer } from 'class-validator';
 import { winstonConfig } from 'config/winston.config';
 import { WinstonModule } from 'nest-winston';
 declare const module: any;

@@ -5,7 +5,6 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entity/product.entity';
 import { File } from './entity/file.entity'
-// const fs = require('fs')
 import * as fs from 'fs'
 
 @Injectable()
@@ -27,8 +26,8 @@ export class ProductService {
       timestamp: new Date().toISOString(),
     }, 404);
 
-    for (let file in files) {
-      let fileUpload = this.fileRepo.create({
+    for (const file in files) {
+      const fileUpload = this.fileRepo.create({
         file: files[file].filename,
         name: files[file].originalname,
         type: files[file].mimetype,
@@ -63,7 +62,7 @@ export class ProductService {
 
   async removeFile(id: String, userId: String) {
 
-    let file = await this.fileRepo.findOneOrFail({ id })
+    const file = await this.fileRepo.findOneOrFail({ id })
 
     if (file.userId != userId) throw new HttpException({
       status: 403,

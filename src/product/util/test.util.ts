@@ -1,6 +1,6 @@
 import { Product } from '../entity/product.entity'
 import { File } from '../entity/file.entity'
-import { name, internet } from 'faker';
+import { name } from 'faker';
 
 export default class TestUtil {
   static giveAMeAValidProduct(): Product {

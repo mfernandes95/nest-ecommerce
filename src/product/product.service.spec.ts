@@ -4,8 +4,6 @@ import { Product } from './entity/product.entity';
 import { File } from './entity/file.entity';
 import { ProductService } from './product.service';
 import TestUtil from './util/test.util';
-import { HttpException } from '@nestjs/common';
-
 const fs = require('fs');
 
 jest.mock('fs')

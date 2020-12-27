@@ -5,7 +5,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from './entity/product.entity';
 import { File } from './entity/file.entity';
 import { UserModule } from 'src/user/user.module';
-import { User } from 'src/user/entity/user.entity';
 import { FormatPriceMiddleware } from 'src/middlewares/format-price.middleware';
 
 @Module({
