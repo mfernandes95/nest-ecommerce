@@ -28,7 +28,7 @@ export class UserController {
     @UseGuards(JwtAuthGuard)
     @Get(':id')
     async show(
-        @Param('id') id: String,
+        @Param('id') id: string,
     ): Promise<User> {
         return await this.userService.findById(id)
     }
@@ -51,7 +51,7 @@ export class UserController {
     @UseGuards(JwtAuthGuard)
     @Put(':id')
     async update(
-        @Param('id') id: String,
+        @Param('id') id: string,
         @Body(new ValidationPipe({ skipMissingProperties: true })) updateUserDto: UpdateUserDto,
     ): Promise<User> {
         return await this.userService.update(id, updateUserDto)
@@ -61,8 +61,8 @@ export class UserController {
     @Delete(':id')
     @HttpCode(204)
     async destroy(
-        @Param('id') id: String,
-    ): Promise<String> {
+        @Param('id') id: string,
+    ): Promise<string> {
         await this.userService.remove(id)
         return 'User Removed!'
     }

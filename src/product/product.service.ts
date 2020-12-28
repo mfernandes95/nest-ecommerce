@@ -56,11 +56,11 @@ export class ProductService {
     }
   }
 
-  async findFileById(id: String): Promise<File> {
+  async findFileById(id: string): Promise<File> {
     return await this.fileRepo.findOneOrFail({ id })
   }
 
-  async removeFile(id: String, userId: String) {
+  async removeFile(id: string, userId: string) {
 
     const file = await this.fileRepo.findOneOrFail({ id })
 
@@ -88,11 +88,11 @@ export class ProductService {
     return this.productRepo.find()
   }
 
-  findOne(id: String): Promise<Product> {
+  findOne(id: string): Promise<Product> {
     return this.productRepo.findOneOrFail({ id })
   }
 
-  async update(id: String, updateProductDto: UpdateProductDto, userId: String) {
+  async update(id: string, updateProductDto: UpdateProductDto, userId: string) {
     const product = await this.productRepo.findOneOrFail({ id })
 
     if (product.userId != userId) throw new HttpException({
@@ -106,7 +106,7 @@ export class ProductService {
     return this.productRepo.findOneOrFail({ id })
   }
 
-  async remove(id: String, userId: String): Promise<DeleteResult> {
+  async remove(id: string, userId: string): Promise<DeleteResult> {
     const product = await this.productRepo.findOneOrFail({ id })
     if (product.userId != userId) throw new HttpException({
       status: 403,

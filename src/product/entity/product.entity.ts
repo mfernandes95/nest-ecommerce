@@ -7,7 +7,7 @@ import { File } from './file.entity'
 export class Product {
 
   @PrimaryGeneratedColumn('uuid')
-  id: String;
+  id: string;
 
   @Column()
   name: string;

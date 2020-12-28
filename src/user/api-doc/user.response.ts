@@ -2,19 +2,19 @@ import { ApiProperty } from "@nestjs/swagger"
 
 export class UserResponse {
     @ApiProperty()
-    id: String
+    id: string
 
     @ApiProperty({
         type: String,
         description: 'name of user'
     })
-    name: String
+    name: string
 
     @ApiProperty({
         type: String,
         description: 'email of user'
     })
-    email: String
+    email: string
 
     @ApiProperty()
     created_at: Date

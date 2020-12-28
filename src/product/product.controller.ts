@@ -50,7 +50,7 @@ export class ProductController {
   @HttpCode(201)
   async removeFile(@Param('id') id: string,
     @UserInfo() user: User,
-  ): Promise<String> {
+  ): Promise<string> {
     await this.productService.removeFile(id, user.id);
 
     return 'User Removed!'
@@ -90,9 +90,9 @@ export class ProductController {
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async remove(
-    @Param('id') id: String,
+    @Param('id') id: string,
     @UserInfo() user: User
-  ): Promise<String> {
+  ): Promise<string> {
     await this.productService.remove(id, user.id);
 
     return 'product Removed!'

@@ -13,7 +13,7 @@ import { Injectable } from '@nestjs/common';
 export class IsUserAlreadyExistConstraint implements ValidatorConstraintInterface {
   constructor(private readonly userService: UserService) { }
 
-  async validate(email: String, args: ValidationArguments) {
+  async validate(email: string, args: ValidationArguments) {
     // return false
     return await this.userService.findByEmail(email).then(user => {
       if (user) return false;

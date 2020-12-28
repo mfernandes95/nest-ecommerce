@@ -20,12 +20,12 @@ export class UserService {
     return user
   }
 
-  findById(id: String): Promise<User> {
+  findById(id: string): Promise<User> {
     return this.userRepo.findOneOrFail({ id })
   }
 
   // Login
-  async findByEmail(email: String): Promise<User> {
+  async findByEmail(email: string): Promise<User> {
     return await this.userRepo.findOneOrFail({ where: { email } })
   }
 
@@ -51,13 +51,13 @@ export class UserService {
     })
   }
 
-  async update(id: String, updateUserDto: UpdateUserDto): Promise<User> {
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     await this.userRepo.findOneOrFail({ id })
     await this.userRepo.update({ id }, updateUserDto)
     return await this.userRepo.findOneOrFail({ id })
   }
 
-  async remove(id: String): Promise<DeleteResult> {
+  async remove(id: string): Promise<DeleteResult> {
     await this.userRepo.findOneOrFail({ id })
 
     // for use this throw not use findOne insted findOneOrFail
